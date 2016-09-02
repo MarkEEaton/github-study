@@ -6,11 +6,11 @@ import json
 
 
 def unpickle_user():
-    user_json = pickle.load(open('user.json', 'rb'))
+    user_json = pickle.load(open('user.json', 'rb')) # fix this to close file
     return user_json
 
 def unpickle_repo():
-    repo_json = pickle.load(open('repo.json', 'rb'))
+    repo_json = pickle.load(open('repo.json', 'rb')) # fix this to close file
     return repo_json
 
 
@@ -23,8 +23,6 @@ class Analysis():
     def followers(self):
         follower_count = []
         for follower in self.data:
-            print("follower:")
-            print(type(follower))
             follower_count.append(follower.get('followers'))
         print(follower_count)
         return follower_count
@@ -60,15 +58,21 @@ class Analysis():
         print(created_at_count)
         return created_at_count
 
-    def get_gh_index(self):
+    def manage_gh_index(self):
+        gh_list = []
+        for user in self.repo:
+            user_repo_list = json.loads(self.repo[user])
+            gh_list.append(self.get_gh_index(user, user_repo_list))
+        print(gh_list)
+
+    def get_gh_index(self, user, user_repo_list):
         # get the stargazers counts from the json
         repo_list = []
         count_list = []
-        for user in self.repo:
-            for repo in user:
-                for k, v in repo.items():
-                    if k == "stargazers_count" and v != 0:
-                        repo_list.append(v)
+        for repo in user_repo_list:
+            for k, v in repo.items():
+                if k == "stargazers_count" and v != 0:
+                    repo_list.append(v)
 
         # sometimes there are no stars :(
         if repo_list == []:
@@ -91,8 +95,7 @@ class Analysis():
                     else:
                         count_list.append(item)
                         break
-            print(str(max(count_list)))
-            return
+            return(max(count_list))
 
 
 a = Analysis()
@@ -101,4 +104,4 @@ a.following()
 a.public_gists()
 a.public_repos()
 a.created_at()
-a.get_gh_index()
+a.manage_gh_index()
