@@ -2,6 +2,7 @@ import pickle
 import datetime
 import pprint
 import datafetch
+import json
 
 
 def unpickle_user():
@@ -10,7 +11,6 @@ def unpickle_user():
 
 def unpickle_repo():
     repo_json = pickle.load(open('repo.json', 'rb'))
-    pprint.pprint(repo_json)
     return repo_json
 
 
@@ -23,6 +23,8 @@ class Analysis():
     def followers(self):
         follower_count = []
         for follower in self.data:
+            print("follower:")
+            print(type(follower))
             follower_count.append(follower.get('followers'))
         print(follower_count)
         return follower_count
@@ -58,7 +60,7 @@ class Analysis():
         print(created_at_count)
         return created_at_count
 
-    def get_gh_index(self, user):
+    def get_gh_index(self):
         # get the stargazers counts from the json
         repo_list = []
         count_list = []
@@ -93,11 +95,10 @@ class Analysis():
             return
 
 
-
 a = Analysis()
 a.followers()
 a.following()
 a.public_gists()
 a.public_repos()
 a.created_at()
-a.get_gh_index(user)
+a.get_gh_index()
