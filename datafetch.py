@@ -1,4 +1,6 @@
 import json
+import pprint
+import key
 import requests
 import pickle
 
@@ -11,16 +13,15 @@ def extractuserdata():
 
 
 def extractrepodata():
-    repodata = []
-    repojson = []
+    repo_data = []
+    repo_json = {} 
 
     for user in users:
-        repodata.append(requests.get("https://api.github.com/users/{}/repos".format(user)))
+        request_data = requests.get("https://api.github.com/users/{}/repos".format(user), auth=(key.keyname, key.keysecret))
+        repo_json.update({user: json.loads(request_data.text)})
 
-    for user in repodata:
-        repojson.append(json.loads(user.text))
-
-    return repojson
+    pprint.pprint(repo_json)
+    return repo_json
 
 
 def pickleit():
@@ -30,3 +31,8 @@ def pickleit():
     pickle.dump(extractrepodata(), f2)
     f1.close()
     f2.close()
+
+if __name__ == "__main__":
+    extractuserdata()
+    extractrepodata()
+    pickleit()
