@@ -46,16 +46,22 @@ class Analysis():
         print(public_repos_count)
         return public_repos_count
 
-    def created_at(self):
+    def manage_created_at(self):
+        for user in self.data:
+             if self.get_created_at(user) != 0:
+                pass            
+
+    def get_created_at(self, user):
         """return timeedelta since the account was created"""
-        created_at_count = []
-        for created_at in self.data:
-            py_created_at = dt.strptime(created_at.get('created_at'),
+        for ind_user in self.data:
+            if ind_user == user:
+                py_created_at = dt.strptime(ind_user.get('created_at'),
                                         "%Y-%m-%dT%H:%M:%SZ")
-            created_delta = dt.now() - py_created_at
-            created_at_count.append(created_delta)
-        print(created_at_count)
-        return created_at_count
+                created_delta = dt.now() - py_created_at
+                print(created_delta)
+                return created_delta
+            else:
+                pass
 
     def manage_gh_index(self):
         gh_list = []
@@ -102,5 +108,5 @@ a.followers()
 a.following()
 a.public_gists()
 a.public_repos()
-a.created_at()
+a.manage_created_at()
 a.manage_gh_index()
