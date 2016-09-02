@@ -36,12 +36,9 @@ def extractrepodata():
 
 
 def pickleit():
-    f1 = open('user.json', 'wb')
-    f2 = open('repo.json', 'wb')
-    pickle.dump(extractuserdata(), f1)
-    pickle.dump(extractrepodata(), f2)
-    f1.close()
-    f2.close()
+    with open('user.json', 'wb') as f1, open('repo.json', 'wb') as f2: 
+        pickle.dump(extractuserdata(), f1)
+        pickle.dump(extractrepodata(), f2)
 
 def check_rate_limit(request_data):
     x = request_data.headers['x-ratelimit-remaining']

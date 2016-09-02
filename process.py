@@ -6,13 +6,12 @@ import json
 
 
 def unpickle_user():
-    user_json = pickle.load(open('user.json', 'rb')) # fix this to close file
-    return user_json
+    with open('user.json', 'rb') as user_file:
+        return pickle.load(user_file)
 
 def unpickle_repo():
-    repo_json = pickle.load(open('repo.json', 'rb')) # fix this to close file
-    return repo_json
-
+    with open('repo.json', 'rb') as repo_file:
+        return pickle.load(repo_file)
 
 
 class Analysis():
