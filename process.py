@@ -1,13 +1,12 @@
 import pickle
-import datetime
-import pprint
-import datafetch
+from datetime import datetime as dt
 import json
 
 
 def unpickle_user():
     with open('user.json', 'rb') as user_file:
         return pickle.load(user_file)
+
 
 def unpickle_repo():
     with open('repo.json', 'rb') as repo_file:
@@ -51,8 +50,9 @@ class Analysis():
         """return timeedelta since the account was created"""
         created_at_count = []
         for created_at in self.data:
-            py_created_at = datetime.datetime.strptime(created_at.get('created_at'), "%Y-%m-%dT%H:%M:%SZ")
-            created_delta = datetime.datetime.now() - py_created_at
+            py_created_at = dt.strptime(created_at.get('created_at'),
+                                        "%Y-%m-%dT%H:%M:%SZ")
+            created_delta = dt.now() - py_created_at
             created_at_count.append(created_delta)
         print(created_at_count)
         return created_at_count
