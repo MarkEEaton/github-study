@@ -2,8 +2,9 @@ import key
 import requests
 import pickle
 import time
+import json
 
-users = ['markeeaton', 'robincamille', 'samuelclay', 'timtomch', 'szweibel']
+users = ['markeeaton', 'robincamille', 'samuelclay', 'timtomch', 'szweibel', 'blah']
 
 # rate limit is 60 per hour for unauthenticated
 # rate limit is 5000 per hour for authenticated
@@ -40,16 +41,16 @@ def extractrepodata():
 
 def pickleit():
     """ stores the data for future use """
-    with open('user.json', 'wb') as f1, open('repo.json', 'wb') as f2:
-        pickle.dump(extractuserdata(), f1)
-        pickle.dump(extractrepodata(), f2)
+    with open('user.json', 'w') as f1, open('repo.json', 'w') as f2:
+        json.dump(extractuserdata(), f1)
+        json.dump(extractrepodata(), f2)
 
 
 def check_rate_limit(request_data):
     """ keeps track of rate limiting and sleeps when necessary """
     x = request_data.headers['x-ratelimit-remaining']
     print("request quota remaining: " + str(x))
-    if x < 3:
+    if int(x) < 3:
         print('sleeping...')
         time.sleep(300)
     else:

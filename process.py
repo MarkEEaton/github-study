@@ -1,16 +1,18 @@
-import pickle
-from datetime import datetime as dt
+import datetime as dt
 import json
+import datecheck
 
 
 def unpickle_user():
-    with open('user.json', 'rb') as user_file:
-        return pickle.load(user_file)
+    """" load the user data """
+    with open('user.json', 'r') as user_file:
+        return json.load(user_file)
 
 
 def unpickle_repo():
-    with open('repo.json', 'rb') as repo_file:
-        return pickle.load(repo_file)
+    """ load the repo data """
+    with open('repo.json', 'r') as repo_file:
+        return json.load(repo_file)
 
 
 class Analysis():
@@ -19,6 +21,7 @@ class Analysis():
         self.repo = unpickle_repo()
 
     def followers(self):
+        """ get a list of follower counts """
         follower_count = []
         for follower in self.data:
             follower_count.append(follower.get('followers'))
@@ -26,6 +29,7 @@ class Analysis():
         return follower_count
 
     def following(self):
+        """ get a list of following counts """
         following_count = []
         for following in self.data:
             following_count.append(following.get('following'))
@@ -33,6 +37,7 @@ class Analysis():
         return following_count
 
     def public_gists(self):
+        """ get a list of public gist counts """
         public_gists_count = []
         for public_gists in self.data:
             public_gists_count.append(public_gists.get('public_gists'))
@@ -40,30 +45,15 @@ class Analysis():
         return public_gists_count
 
     def public_repos(self):
+        """ get a list of public repo counts """
         public_repos_count = []
         for public_repos in self.data:
             public_repos_count.append(public_repos.get('public_repos'))
         print(public_repos_count)
         return public_repos_count
 
-    def manage_created_at(self):
-        for user in self.data:
-             if self.get_created_at(user) != 0:
-                pass            
-
-    def get_created_at(self, user):
-        """return timeedelta since the account was created"""
-        for ind_user in self.data:
-            if ind_user == user:
-                py_created_at = dt.strptime(ind_user.get('created_at'),
-                                        "%Y-%m-%dT%H:%M:%SZ")
-                created_delta = dt.now() - py_created_at
-                print(created_delta)
-                return created_delta
-            else:
-                pass
-
     def manage_gh_index(self):
+        """ iterate through the users and return a list of gh indices """
         gh_list = []
         for user in self.repo:
             user_repo_list = json.loads(self.repo[user])
@@ -71,6 +61,7 @@ class Analysis():
         print(gh_list)
 
     def get_gh_index(self, user, user_repo_list):
+        """ get the gh_index for a user """
         # get the stargazers counts from the json
         repo_list = []
         count_list = []
@@ -104,9 +95,12 @@ class Analysis():
 
 
 a = Analysis()
-a.followers()
-a.following()
-a.public_gists()
-a.public_repos()
-a.manage_created_at()
-a.manage_gh_index()
+
+if __name__ == "__main__":
+    a.followers()
+    a.following()
+    a.public_gists()
+    a.public_repos()
+    datecheck.manage_is_thirty_days()
+    datecheck.manage_is_created_at()
+    a.manage_gh_index()
