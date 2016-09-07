@@ -1,6 +1,5 @@
 import key
 import requests
-import pickle
 import time
 import json
 
@@ -35,7 +34,11 @@ def extractrepodata():
         check_rate_limit(request_data)
         if request_data.status_code != 200:
             print('error: ' + str(request_data.status_code))
-        repo_json.update({user: request_data.text})
+        elif request_data.text == "[]":
+            print("no data from repo request")
+            pass
+        else:
+            repo_json.update({user: request_data.text})
     return repo_json
 
 

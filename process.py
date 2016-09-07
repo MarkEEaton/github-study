@@ -1,6 +1,6 @@
 import datetime as dt
 import json
-import datecheck
+import datecheck 
 
 
 def unpickle_user():
@@ -95,12 +95,11 @@ class Analysis():
 
 
 a = Analysis()
+checked_data = datecheck.thirty_days(datecheck.is_active(a.data))
 
 if __name__ == "__main__":
     a.followers()
     a.following()
     a.public_gists()
     a.public_repos()
-    datecheck.manage_is_thirty_days()
-    datecheck.manage_is_created_at()
     a.manage_gh_index()
