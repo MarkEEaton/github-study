@@ -14,11 +14,11 @@ def thirty_days(data):
         print("user removed due to inactivity: " + login + ' ' + created_at)
         return None 
 
-def is_active(data):
-    py_updated_at = dt.datetime.strptime(data['updated_at'], "%Y-%m-%dT%H:%M:%SZ")
-    updated_delta = dt.datetime.now() - py_updated_at
-    if updated_delta > dt.timedelta(30):
-        print("user removed due to inactivity: " + str(data['login']))
+def is_too_recent(data):
+    py_created_at = dt.datetime.strptime(data['created_at'], "%Y-%m-%dT%H:%M:%SZ")
+    updated_delta = dt.datetime.now() - py_created_at
+    if updated_delta < dt.timedelta(30):
+        print("user was created too recently: " + str(data['login']) + " " + str(data['created_at']))
         return None
     else:
         return data 
