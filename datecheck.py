@@ -9,8 +9,9 @@ def thirty_days(data):
     if dt.timedelta(30) > created_delta:
         return data
     else:
-        user = str(data[0]['actor']['login'])
-        print("user removed due to inactivity: " + user)
+        login = str(data[0]['actor']['login'])
+        created_at = str(data[0]['created_at'])
+        print("user removed due to inactivity: " + login + ' ' + created_at)
         return None 
 
 def is_active(data):

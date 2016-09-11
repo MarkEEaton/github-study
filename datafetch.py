@@ -26,13 +26,14 @@ def generate_users():
             print('no repos. passing')
             pass
         else:
+            login = str(json.loads(user_events.text)[0]['actor']['login'])
+            created_at = str(json.loads(user_events.text)[0]['created_at'])
             check1 = datecheck.thirty_days(json.loads(user_events.text))
             #check2 = datecheck.is_active(json.loads(user_events.text))
             #if check1 and check2 != None:
             if check1 != None:
                 filtered_users.append(user_events.json())
-                user = str(json.loads(user_events.text)[0]['actor']['login'])
-                print('adding user: ' + user)
+                print('adding user: ' + login + ' ' + created_at)
             else:
                 pass            
         
