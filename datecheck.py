@@ -2,14 +2,15 @@ import datetime as dt
 import pprint
 
 def thirty_days(data):
-    """ manage the created_at comparison """
-    py_created_at = dt.datetime.strptime(data['created_at'],
+    """ is the user active in the last 30 days? """
+    py_created_at = dt.datetime.strptime(data[0]['created_at'],
                             "%Y-%m-%dT%H:%M:%SZ")
     created_delta = dt.datetime.now() - py_created_at
-    if dt.timedelta(30) < created_delta:
+    if dt.timedelta(30) > created_delta:
         return data
     else:
-        print("user created too recently: " + str(data['login']))
+        user = str(data[0]['actor']['login'])
+        print("user removed due to inactivity: " + user)
         return None 
 
 def is_active(data):
