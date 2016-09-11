@@ -2,6 +2,7 @@ import key
 import requests
 import time
 import json
+import datecheck
 
 users = ['markeeaton', 'robincamille', 'samuelclay', 'timtomch', 'szweibel', 'blah']
 
@@ -19,6 +20,8 @@ def extractuserdata():
         if request_data.status_code != 200:
             print('error: ' + str(request_data.status_code))
         check_rate_limit(request_data)
+        datecheck.thirty_days(json.loads(request_data.text))
+        datecheck.is_active(json.loads(request_data.text))
         user_json.append(request_data.json())
     return user_json
 
@@ -61,5 +64,5 @@ def check_rate_limit(request_data):
 
 if __name__ == "__main__":
     extractuserdata()
-    extractrepodata()
-    pickleit()
+    #extractrepodata()
+    #pickleit()
