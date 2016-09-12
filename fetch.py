@@ -13,34 +13,47 @@ filtered_users_logins = []
 # rate limit is 60 per hour for unauthenticated
 # rate limit is 5000 per hour for authenticated
 
-def generate_users():
-    """ generates a list of users and filters them. Ignores private repos """
+def generate_random():
+    """ generates a list of random users and filters them. Ignores private repos """
     print("-----------------------------")
     print("*** First round filtering ***")
     print("-----------------------------")
     while len(filtered_users) < 10:
         user = random.randint(1, 20000000)
+        first_round(user)
+
+def generate_librarians():
+    print("-----------------------------")
+    print("*** First round filtering ***")
+    print("-----------------------------")
+    for user in users:
+        first_round(user)
+
+def first_round(user):
+    if type(user) == str:
+        user_events = requests.get("https://api.github.com/users/{}/events".format(user), auth=(key.keyname, key.keysecret))
+    elif type(user) == int:
         user_events = requests.get("https://api.github.com/user/{}/events".format(user), auth=(key.keyname, key.keysecret))
-        check_rate_limit(user_events)
-        if user_events.status_code != 200:
-            print('error: ' + str(user_events.status_code))
-            pass
-        elif user_events.text == "[]":
-            print('no repos. passing.')
-            pass
+    check_rate_limit(user_events)
+    if user_events.status_code != 200:
+        print('error: ' + str(user_events.status_code))
+        pass
+    elif user_events.text == "[]":
+        print('no repos. passing.')
+        pass
+    else:
+        login = str(json.loads(user_events.text)[0]['actor']['login'])
+        created_at = str(json.loads(user_events.text)[0]['created_at'])
+        check1 = datecheck.thirty_days(json.loads(user_events.text))
+        if check1 != None:
+            filtered_users.append(user_events.json())
+            filtered_users_logins.append(login)
+            print('adding user: ' + login + ' ' + created_at)
         else:
-            login = str(json.loads(user_events.text)[0]['actor']['login'])
-            created_at = str(json.loads(user_events.text)[0]['created_at'])
-            check1 = datecheck.thirty_days(json.loads(user_events.text))
-            if check1 != None:
-                filtered_users.append(user_events.json())
-                filtered_users_logins.append(login)
-                print('adding user: ' + login + ' ' + created_at)
-            else:
-                pass            
+            pass            
         
 
-def extractuserdata():
+def second_round():
     """ gets json data on the users """
     print("------------------------------")
     print("*** Second round filtering ***")
@@ -107,6 +120,9 @@ def check_rate_limit(request_data):
 
 if __name__ == "__main__":
     #extractrepodata()
-    generate_users()
-    extractuserdata()
+    generate_librarians()
+    second_round()
+    time.sleep(200)
+    generate_random()
+    second_round()
     #pickleit()
