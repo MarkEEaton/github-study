@@ -3,33 +3,36 @@ import pprint
 import requests
 import time
 import json
-import datecheck
+import check
 import random
+import collections
 
 users = ['markeeaton', 'robincamille', 'samuelclay', 'timtomch', 'szweibel', 'blah']
-filtered_users = []
-filtered_users_logins = []
+filtered_users_librarians = []
+filtered_users_randoms = []
+#filtered_users_logins = []
 
 # rate limit is 60 per hour for unauthenticated
 # rate limit is 5000 per hour for authenticated
 
+def header(number):
+    print("---------------------------")
+    print("*** " + number + " round filtering ***")
+    print("---------------------------")
+
 def generate_random():
     """ generates a list of random users and filters them. Ignores private repos """
-    print("-----------------------------")
-    print("*** First round filtering ***")
-    print("-----------------------------")
-    while len(filtered_users) < 10:
+    header("1st")
+    while len(filtered_users_randoms) < 10:
         user = random.randint(1, 20000000)
-        first_round(user)
+        first_round(user, "randoms")
 
 def generate_librarians():
-    print("-----------------------------")
-    print("*** First round filtering ***")
-    print("-----------------------------")
+    header("1st")
     for user in users:
-        first_round(user)
+        first_round(user, "librarians")
 
-def first_round(user):
+def first_round(user, group):
     if type(user) == str:
         user_events = requests.get("https://api.github.com/users/{}/events".format(user), auth=(key.keyname, key.keysecret))
     elif type(user) == int:
@@ -44,23 +47,33 @@ def first_round(user):
     else:
         login = str(json.loads(user_events.text)[0]['actor']['login'])
         created_at = str(json.loads(user_events.text)[0]['created_at'])
-        check1 = datecheck.thirty_days(json.loads(user_events.text))
-        if check1 != None:
-            filtered_users.append(user_events.json())
-            filtered_users_logins.append(login)
-            print('adding user: ' + login + ' ' + created_at)
+        check1 = check.thirty_days(json.loads(user_events.text))
+        if check1 != None and group == "librarians":
+            #filtered_users_librarians.append(user_events.json())
+            filtered_users_librarians.append(login)
+            print('adding librarian user: ' + login + ' ' + created_at)
+            return
+        elif check1 != None and group == "randoms":
+            #filtered_users_randoms.append(user_events.json())
+            filtered_users_randoms.append(login)
+            print('adding randoms user: ' + login + ' ' + created_at)
+            return
         else:
-            pass            
+            return            
         
 
-def second_round():
+def second_round(group):
     """ gets json data on the users """
-    print("------------------------------")
-    print("*** Second round filtering ***")
-    print("------------------------------")
+    header("2nd")
+    if group == "librarians":
+        data = filtered_users_librarians
+    elif group == "randoms":
+        data = filtered_users_randoms
+    else:
+        print("undefined group")
     user_json = []
     url = "https://api.github.com/users/{}"
-    for user in filtered_users_logins:
+    for user in data:
         request_data = requests.get(url.format(user),
                                     auth=(key.keyname, key.keysecret))
         check_rate_limit(request_data)
@@ -71,10 +84,10 @@ def second_round():
         else:
             login = str(json.loads(request_data.text)['login'])
             created_at = str(json.loads(request_data.text)['created_at'])
-            check2 = datecheck.is_too_recent(json.loads(request_data.text))
+            check2 = check.is_too_recent(json.loads(request_data.text))
             if check2 != None:
                 user_json.append(request_data.json())
-                print('adding user: ' + login + ' ' + created_at)
+                print('adding ' + group + ' user: ' + login + ' ' + created_at)
             else:
                 pass
     return user_json
@@ -82,7 +95,7 @@ def second_round():
 
 def extractrepodata():
     """ gets json data on the users' repos """
-    repo_json = {}
+    repo_json = collections.OrderedDict() 
 
     for user in users:
         request_data = requests.get("https://api.github.com/users/{}/repos"
@@ -103,9 +116,9 @@ def extractrepodata():
 
 def pickleit():
     """ stores the data for future use """
-    with open('user.json', 'w') as f1, open('repo.json', 'w') as f2:
-        json.dump(extractuserdata(), f1)
-        json.dump(extractrepodata(), f2)
+    with open('librarians_data.json', 'w') as f1, open('randoms_data.json', 'w') as f2:
+        json.dump(librarians_data, f1)
+        json.dump(randoms_data, f2)
 
 
 def check_rate_limit(request_data):
@@ -121,8 +134,7 @@ def check_rate_limit(request_data):
 if __name__ == "__main__":
     #extractrepodata()
     generate_librarians()
-    second_round()
-    time.sleep(200)
+    librarians_data = second_round("librarians")
     generate_random()
-    second_round()
-    #pickleit()
+    randoms_data = second_round("randoms")
+    pickleit()

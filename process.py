@@ -1,6 +1,6 @@
 import datetime as dt
 import json
-import datecheck 
+# import datecheck 
 
 
 def unpickle_user():
@@ -20,11 +20,19 @@ class Analysis():
         self.data = unpickle_user()
         self.repo = unpickle_repo()
 
+    def logins(self):
+        """ print usernames """
+        logins_list = []
+        for follower in self.data:
+            logins_list.append(follower.get('login'))
+        print(logins_list)
+
     def followers(self):
         """ get a list of follower counts """
         follower_count = []
         for follower in self.data:
             follower_count.append(follower.get('followers'))
+        print("follower_count")
         print(follower_count)
         return follower_count
 
@@ -33,6 +41,7 @@ class Analysis():
         following_count = []
         for following in self.data:
             following_count.append(following.get('following'))
+        print("following_count")
         print(following_count)
         return following_count
 
@@ -41,6 +50,7 @@ class Analysis():
         public_gists_count = []
         for public_gists in self.data:
             public_gists_count.append(public_gists.get('public_gists'))
+        print("public_gists_count")
         print(public_gists_count)
         return public_gists_count
 
@@ -49,6 +59,7 @@ class Analysis():
         public_repos_count = []
         for public_repos in self.data:
             public_repos_count.append(public_repos.get('public_repos'))
+        print("public_repos_count")
         print(public_repos_count)
         return public_repos_count
 
@@ -56,8 +67,10 @@ class Analysis():
         """ iterate through the users and return a list of gh indices """
         gh_list = []
         for user in self.repo:
+            # this is a problem because self.repo is a dict, and hence unordered
             user_repo_list = json.loads(self.repo[user])
             gh_list.append(self.get_gh_index(user, user_repo_list))
+        print("gh_list")
         print(gh_list)
 
     def get_gh_index(self, user, user_repo_list):
@@ -95,9 +108,10 @@ class Analysis():
 
 
 a = Analysis()
-checked_data = datecheck.thirty_days(datecheck.is_active(a.data))
+#checked_data = datecheck.thirty_days(datecheck.is_active(a.data))
 
 if __name__ == "__main__":
+    a.logins()
     a.followers()
     a.following()
     a.public_gists()
