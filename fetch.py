@@ -10,7 +10,6 @@ import collections
 users = ['markeeaton', 'robincamille', 'samuelclay', 'timtomch', 'szweibel', 'blah']
 filtered_users_librarians = []
 filtered_users_randoms = []
-#filtered_users_logins = []
 
 # rate limit is 60 per hour for unauthenticated
 # rate limit is 5000 per hour for authenticated
@@ -93,33 +92,24 @@ def second_round(group):
     return user_json
 
 
-def extractrepodata():
+def extractrepodata(data):
     """ gets json data on the users' repos """
+    header("repo")
     repo_json = collections.OrderedDict() 
-
-    for user in users:
+    for user in data:
         request_data = requests.get("https://api.github.com/users/{}/repos"
-                                    .format(user), auth=(key.keyname,
+                                    .format(user['login']), auth=(key.keyname,
                                                          key.keysecret))
         check_rate_limit(request_data)
         if request_data.status_code != 200:
             print('error: ' + str(request_data.status_code))
         elif request_data.text == "[]":
-            print("no data from repo request")
+            print(user['login'] + " no data from repo request")
             pass
         else:
-            repo_json.update({user: request_data.text})
-    pprint.pprint(json.loads(repo_json['markeeaton']))
-    print(type(repo_json['markeeaton']))
+            repo_json[user['login']] = request_data.text
+            print("adding " + user['login'] + " repos")
     return repo_json
-
-
-def pickleit():
-    """ stores the data for future use """
-    with open('librarians_data.json', 'w') as f1, open('randoms_data.json', 'w') as f2:
-        json.dump(librarians_data, f1)
-        json.dump(randoms_data, f2)
-
 
 def check_rate_limit(request_data):
     """ keeps track of rate limiting and sleeps when necessary """
@@ -131,10 +121,20 @@ def check_rate_limit(request_data):
     else:
         pass
 
+def pickleit():
+    """ stores the data for future use """
+    with open('librarians_data.json', 'w') as f1, open('randoms_data.json', 'w') as f2:
+        json.dump(librarians_data, f1)
+        json.dump(randoms_data, f2)
+    with open('librarians_repos.json', 'w') as f3, open('randoms_repos.json', 'w') as f4:
+        json.dump(librarians_repos, f3)
+        json.dump(randoms_repos, f4)
+
 if __name__ == "__main__":
-    #extractrepodata()
     generate_librarians()
     librarians_data = second_round("librarians")
     generate_random()
     randoms_data = second_round("randoms")
+    librarians_repos = extractrepodata(librarians_data)
+    randoms_repos = extractrepodata(randoms_data)
     pickleit()
