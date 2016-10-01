@@ -15,6 +15,7 @@ filtered_users_randoms = []
 # rate limit is 5000 per hour for authenticated
 
 def header(number):
+    """ create a header """
     print("---------------------------")
     print("*** " + number + " round filtering ***")
     print("---------------------------")
@@ -27,11 +28,13 @@ def generate_random():
         first_round(user, "randoms")
 
 def generate_librarians():
+    """ filters a list of librarians. Ignores private repos """
     header("1st")
     for user in users:
         first_round(user, "librarians")
 
 def first_round(user, group):
+    """ does the first round of filtering. user must have been active in the last 30 days """
     if type(user) == str:
         user_events = requests.get("https://api.github.com/users/{}/events".format(user), auth=(key.keyname, key.keysecret))
     elif type(user) == int:
@@ -48,12 +51,10 @@ def first_round(user, group):
         created_at = str(json.loads(user_events.text)[0]['created_at'])
         check1 = check.thirty_days(json.loads(user_events.text))
         if check1 != None and group == "librarians":
-            #filtered_users_librarians.append(user_events.json())
             filtered_users_librarians.append(login)
             print('adding librarian user: ' + login + ' ' + created_at)
             return
         elif check1 != None and group == "randoms":
-            #filtered_users_randoms.append(user_events.json())
             filtered_users_randoms.append(login)
             print('adding randoms user: ' + login + ' ' + created_at)
             return
@@ -62,7 +63,7 @@ def first_round(user, group):
         
 
 def second_round(group):
-    """ gets json data on the users """
+    """ does the second round of filtering. user account must be more than 30 days old """
     header("2nd")
     if group == "librarians":
         data = filtered_users_librarians

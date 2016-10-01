@@ -15,6 +15,7 @@ def thirty_days(data):
         return None 
 
 def is_too_recent(data):
+    """ is the users account more than 30 days old? """
     py_created_at = dt.datetime.strptime(data['created_at'], "%Y-%m-%dT%H:%M:%SZ")
     updated_delta = dt.datetime.now() - py_created_at
     if updated_delta < dt.timedelta(30):
