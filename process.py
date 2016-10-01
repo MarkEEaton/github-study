@@ -1,18 +1,19 @@
 import datetime as dt
 import json
+from collections import OrderedDict
 # import datecheck 
 
 
 def unpickle_user():
     """" load the user data """
-    with open('user.json', 'r') as user_file:
+    with open('librarians_data.json', 'r') as user_file:
         return json.load(user_file)
 
 
 def unpickle_repo():
     """ load the repo data """
-    with open('repo.json', 'r') as repo_file:
-        return json.load(repo_file)
+    with open('librarians_repos.json', 'r') as repo_file:
+        return json.load(repo_file, object_pairs_hook=OrderedDict)
 
 
 class Analysis():
@@ -68,7 +69,7 @@ class Analysis():
         gh_list = []
         for user in self.repo:
             # this is a problem because self.repo is a dict, and hence unordered
-            user_repo_list = json.loads(self.repo[user])
+            user_repo_list = self.repo[user]
             gh_list.append(self.get_gh_index(user, user_repo_list))
         print("gh_list")
         print(gh_list)
@@ -80,13 +81,12 @@ class Analysis():
         count_list = []
         for repo in user_repo_list:
             for k, v in repo.items():
-                if k == "stargazers_count" and v != 0:
+                if k == "stargazers_count":
                     repo_list.append(v)
 
         # sometimes there are no stars :(
-        if repo_list == []:
-            print("No stars found.")
-            return
+        if max(repo_list) == 0:
+            return 0
         else:
             sorted_list = sorted(repo_list)
 
@@ -108,7 +108,6 @@ class Analysis():
 
 
 a = Analysis()
-#checked_data = datecheck.thirty_days(datecheck.is_active(a.data))
 
 if __name__ == "__main__":
     a.logins()

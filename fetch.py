@@ -107,7 +107,7 @@ def extractrepodata(data):
             print(user['login'] + " no data from repo request")
             pass
         else:
-            repo_json[user['login']] = request_data.text
+            repo_json[user['login']] = request_data.json()
             print("adding " + user['login'] + " repos")
     return repo_json
 
@@ -115,7 +115,7 @@ def check_rate_limit(request_data):
     """ keeps track of rate limiting and sleeps when necessary """
     x = request_data.headers['x-ratelimit-remaining']
     print("request quota remaining: " + str(x) + "   ", end="")
-    if int(x) < 3:
+    if int(x) < 20:
         print('sleeping...')
         time.sleep(300)
     else:
