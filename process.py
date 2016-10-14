@@ -6,13 +6,13 @@ from collections import OrderedDict
 
 def unpickle_user():
     """" load the user data """
-    with open('librarians_data.json', 'r') as user_file:
+    with open('json/librarians_data.json', 'r') as user_file:
         return json.load(user_file)
 
 
 def unpickle_repo():
     """ load the repo data """
-    with open('librarians_repos.json', 'r') as repo_file:
+    with open('json/librarians_repos.json', 'r') as repo_file:
         return json.load(repo_file, object_pairs_hook=OrderedDict)
 
 

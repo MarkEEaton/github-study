@@ -124,10 +124,10 @@ def check_rate_limit(request_data):
 
 def pickleit():
     """ stores the data for future use """
-    with open('librarians_data.json', 'w') as f1, open('randoms_data.json', 'w') as f2:
+    with open('json/librarians_data.json', 'w') as f1, open('json/randoms_data.json', 'w') as f2:
         json.dump(librarians_data, f1)
         json.dump(randoms_data, f2)
-    with open('librarians_repos.json', 'w') as f3, open('randoms_repos.json', 'w') as f4:
+    with open('json/librarians_repos.json', 'w') as f3, open('json/randoms_repos.json', 'w') as f4:
         json.dump(librarians_repos, f3)
         json.dump(randoms_repos, f4)
 
