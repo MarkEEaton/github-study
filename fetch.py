@@ -35,9 +35,9 @@ def generate_librarians():
 
 def first_round(user, group):
     """ does the first round of filtering. user must have been active in the last 30 days """
-    if type(user) == str:
+    if isinstance(user, str):
         user_events = requests.get("https://api.github.com/users/{}/events".format(user), auth=(key.keyname, key.keysecret))
-    elif type(user) == int:
+    elif isinstance(user, int):
         user_events = requests.get("https://api.github.com/user/{}/events".format(user), auth=(key.keyname, key.keysecret))
     check_rate_limit(user_events)
     if user_events.status_code != 200:
@@ -53,24 +53,16 @@ def first_round(user, group):
         if check1 != None and group == "librarians":
             filtered_users_librarians.append(login)
             print('adding librarian user: ' + login + ' ' + created_at)
-            return
         elif check1 != None and group == "randoms":
             filtered_users_randoms.append(login)
             print('adding randoms user: ' + login + ' ' + created_at)
-            return
-        else:
-            return            
-        
 
 def second_round(group):
     """ does the second round of filtering. user account must be more than 30 days old """
     header("2nd")
-    if group == "librarians":
-        data = filtered_users_librarians
-    elif group == "randoms":
-        data = filtered_users_randoms
-    else:
-        print("undefined group")
+    d = {'librarians': filtered_users_librarians,
+         'randoms': filtered_users_randoms}
+    data = d[group]
     user_json = []
     url = "https://api.github.com/users/{}"
     for user in data:
@@ -122,7 +114,7 @@ def check_rate_limit(request_data):
     else:
         pass
 
-def pickleit():
+def store_it():
     """ stores the data for future use """
     with open('json/librarians_data.json', 'w') as f1, open('json/randoms_data.json', 'w') as f2:
         json.dump(librarians_data, f1)
@@ -138,4 +130,4 @@ if __name__ == "__main__":
     randoms_data = second_round("randoms")
     librarians_repos = extractrepodata(librarians_data)
     randoms_repos = extractrepodata(randoms_data)
-    pickleit()
+    store_it()
