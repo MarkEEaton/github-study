@@ -1,7 +1,6 @@
 import datetime as dt
 import json
-from collections import OrderedDict
-# import datecheck 
+import pprint
 
 
 def unpickle_user():
@@ -13,66 +12,31 @@ def unpickle_user():
 def unpickle_repo():
     """ load the repo data """
     with open('json/librarians_repos.json', 'r') as repo_file:
-        return json.load(repo_file, object_pairs_hook=OrderedDict)
+        return json.load(repo_file)
 
 
 class Analysis():
     def __init__(self):
         self.data = unpickle_user()
         self.repo = unpickle_repo()
+        self.output = {} 
 
-    def logins(self):
+    def basic_data(self):
         """ print usernames """
-        logins_list = []
         for follower in self.data:
-            logins_list.append(follower.get('login'))
-        print(logins_list)
-
-    def followers(self):
-        """ get a list of follower counts """
-        follower_count = []
-        for follower in self.data:
-            follower_count.append(follower.get('followers'))
-        print("follower_count")
-        print(follower_count)
-        return follower_count
-
-    def following(self):
-        """ get a list of following counts """
-        following_count = []
-        for following in self.data:
-            following_count.append(following.get('following'))
-        print("following_count")
-        print(following_count)
-        return following_count
-
-    def public_gists(self):
-        """ get a list of public gist counts """
-        public_gists_count = []
-        for public_gists in self.data:
-            public_gists_count.append(public_gists.get('public_gists'))
-        print("public_gists_count")
-        print(public_gists_count)
-        return public_gists_count
-
-    def public_repos(self):
-        """ get a list of public repo counts """
-        public_repos_count = []
-        for public_repos in self.data:
-            public_repos_count.append(public_repos.get('public_repos'))
-        print("public_repos_count")
-        print(public_repos_count)
-        return public_repos_count
+            login = follower.get('login')
+            self.output[login] = {"followers": follower.get('followers'),\
+                   "following": follower.get('following'),\
+                   "public_gists_count": follower.get('public_gists'),\
+                   "public_repos": follower.get('public_repos')}
 
     def manage_gh_index(self):
         """ iterate through the users and return a list of gh indices """
-        gh_list = []
         for user in self.repo:
-            # this is a problem because self.repo is a dict, and hence unordered
             user_repo_list = self.repo[user]
-            gh_list.append(self.get_gh_index(user, user_repo_list))
-        print("gh_list")
-        print(gh_list)
+            login = self.repo[user][0]['owner']['login']
+            self.output[login].update({'gh-index': self.get_gh_index(user, user_repo_list)})
+        pprint.pprint(self.output)
 
     def get_gh_index(self, user, user_repo_list):
         """ get the gh_index for a user """
@@ -110,9 +74,5 @@ class Analysis():
 a = Analysis()
 
 if __name__ == "__main__":
-    a.logins()
-    a.followers()
-    a.following()
-    a.public_gists()
-    a.public_repos()
+    a.basic_data()
     a.manage_gh_index()
