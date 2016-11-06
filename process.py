@@ -1,15 +1,14 @@
-import datetime as dt
 import json
 import pprint
 
 
-def unpickle_user():
+def load_user():
     """" load the user data """
     with open('json/librarians_data.json', 'r') as user_file:
         return json.load(user_file)
 
 
-def unpickle_repo():
+def load_repo():
     """ load the repo data """
     with open('json/librarians_repos.json', 'r') as repo_file:
         return json.load(repo_file)
@@ -17,25 +16,26 @@ def unpickle_repo():
 
 class Analysis():
     def __init__(self):
-        self.data = unpickle_user()
-        self.repo = unpickle_repo()
-        self.output = {} 
+        self.data = load_user()
+        self.repo = load_repo()
+        self.output = {}
 
     def basic_data(self):
-        """ print usernames """
+        """ assemble basic data """
         for follower in self.data:
             login = follower.get('login')
-            self.output[login] = {"followers": follower.get('followers'),\
-                   "following": follower.get('following'),\
-                   "public_gists_count": follower.get('public_gists'),\
-                   "public_repos": follower.get('public_repos')}
+            self.output[login] = {"followers": follower.get('followers'),
+                                  "following": follower.get('following'),
+                                  "public_gists": follower.get('public_gists'),
+                                  "public_repos": follower.get('public_repos')}
 
     def manage_gh_index(self):
         """ iterate through the users and return a list of gh indices """
         for user in self.repo:
-            user_repo_list = self.repo[user]
             login = self.repo[user][0]['owner']['login']
-            self.output[login].update({'gh-index': self.get_gh_index(user, user_repo_list)})
+            self.output[login].update({'gh-index':
+                                       self.get_gh_index(user,
+                                                         self.repo[user])})
         pprint.pprint(self.output)
 
     def get_gh_index(self, user, user_repo_list):
