@@ -36,7 +36,6 @@ class Analysis():
             self.output[login].update({'gh-index':
                                        self.get_gh_index(user,
                                                          self.repo[user])})
-        pprint.pprint(self.output)
 
     def get_gh_index(self, user, user_repo_list):
         """ get the gh_index for a user """
@@ -76,3 +75,6 @@ a = Analysis()
 if __name__ == "__main__":
     a.basic_data()
     a.manage_gh_index()
+    print(a.output)
+    with open('json/processeddata.json', 'w') as file:
+         json.dump(a.output, file)
