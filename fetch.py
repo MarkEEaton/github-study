@@ -6,8 +6,8 @@ import json
 import check
 import random
 import collections
+import find_librarians
 
-users = ['markeeaton', 'robincamille', 'samuelclay', 'timtomch', 'szweibel', 'blah']
 filtered_users_librarians = []
 filtered_users_randoms = []
 
@@ -23,13 +23,14 @@ def header(number):
 def generate_random():
     """ generates a list of random users and filters them. Ignores private repos """
     header("1st")
-    while len(filtered_users_randoms) < 10:
+    while len(filtered_users_randoms) < 73:
         user = random.randint(1, 20000000)
         first_round(user, "randoms")
 
 def generate_librarians():
     """ filters a list of librarians. Ignores private repos """
     header("1st")
+    users = find_librarians.find("librarian")
     for user in users:
         first_round(user, "librarians")
 
@@ -117,6 +118,8 @@ def check_rate_limit(request_data):
 def store_it():
     """ stores the data for future use """
     with open('json/librarians_data.json', 'w') as f1, open('json/randoms_data.json', 'w') as f2:
+        print(len(librarians_data))
+        print(len(randoms_data))
         json.dump(librarians_data, f1)
         json.dump(randoms_data, f2)
     with open('json/librarians_repos.json', 'w') as f3, open('json/randoms_repos.json', 'w') as f4:

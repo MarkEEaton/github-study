@@ -6,18 +6,6 @@ import re
 import sys
 import os
 
-""" finds up to 2000 results: 1000 ascending and 1000 descending """
-
-if len(sys.argv) < 2:
-    sys.exit('Usage: python find_librarians.py <file>')
- 
-if os.path.exists(".//json//" + sys.argv[1] + ".json"):
-    sys.exit("Error: can't write a file for this search term. Already exists.")
-
-search_term = sys.argv[1]
-
-url1 = "https://api.github.com/search/users?q={}&per_page=100&sort=joined&order=desc".format(search_term)
-url2 = "https://api.github.com/search/users?q={}&per_page=100&sort=joined&order=asc".format(search_term)
 output = []
 
 def search(url):
@@ -40,11 +28,17 @@ def loop(url):
         else:
             header_link = None
 
-loop(url1) # search descending
-loop(url2) # search ascending
+def find(keyword):
+    url1 = "https://api.github.com/search/users?q={}&per_page=100&sort=joined&order=desc".format(keyword)
+    url2 = "https://api.github.com/search/users?q={}&per_page=100&sort=joined&order=asc".format(keyword)
+    loop(url1) # search descending
+    loop(url2) # search ascending
+    
+    for x in (sorted(set(output))):
+        print(x)
+    print(str(len(set(output))) + " users found.")
 
-output = set(output)
+    return sorted(set(output))
 
-for x in (sorted(output)):
-    print(x)
-print(str(len(output)) + " users found.")
+if __name__ == "__main__":
+    find("librarian")

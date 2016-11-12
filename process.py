@@ -2,22 +2,22 @@ import json
 import pprint
 
 
-def load_user():
+def load_user(file):
     """" load the user data """
-    with open('json/librarians_data.json', 'r') as user_file:
+    with open(file, 'r') as user_file:
         return json.load(user_file)
 
 
-def load_repo():
+def load_repo(file):
     """ load the repo data """
-    with open('json/librarians_repos.json', 'r') as repo_file:
+    with open(file, 'r') as repo_file:
         return json.load(repo_file)
 
 
 class Analysis():
-    def __init__(self):
-        self.data = load_user()
-        self.repo = load_repo()
+    def __init__(self, group):
+        self.data = load_user('json/' + group + '_data.json')
+        self.repo = load_repo('json/' + group + '_repos.json')
         self.output = {}
 
     def basic_data(self):
@@ -70,11 +70,15 @@ class Analysis():
             return(max(count_list))
 
 
-a = Analysis()
+librarians = Analysis('librarians')
+randoms = Analysis('randoms')
 
 if __name__ == "__main__":
-    a.basic_data()
-    a.manage_gh_index()
-    print(a.output)
-    with open('json/processeddata.json', 'w') as file:
-         json.dump(a.output, file)
+    librarians.basic_data()
+    librarians.manage_gh_index()
+    randoms.basic_data()
+    randoms.manage_gh_index()
+    with open('json/processedlibrarians.json', 'w') as file1:
+         json.dump(librarians.output, file1)
+    with open('json/processedrandoms.json', 'w') as file2:
+         json.dump(randoms.output, file2)

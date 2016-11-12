@@ -2,22 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 
-with open('json/processeddata.json', 'r') as file:
-    data = json.load(file)
+with open('json/processedlibrarians.json', 'r') as file1:
+    data1 = json.load(file1)
+with open('json/processedrandoms.json', 'r') as file2:
+    data2 = json.load(file2)
 
-def make_np(x):
+def make_np(x, group):
     facet = []
-    for user in data:
-        facet.append(data[user][x])
+    i = {"librarians": data1,
+         "randoms": data2}
+    for user in i[group]:
+        facet.append(i[group][user][x])
     return np.array(facet)
 
-x1_data = make_np("followers")
-y1_data = make_np("public_repos")
+x1_data = make_np("followers", "librarians")
+y1_data = make_np("public_repos", "librarians")
 
-x2_data = make_np("following")
-y2_data = make_np("public_gists")
+x2_data = make_np("followers", "randoms")
+y2_data = make_np("followers", "randoms")
 
 plt.scatter(x1_data, y1_data, color = 'r')
 plt.scatter(x2_data, y2_data, color = 'b')
+
+ax.set_yscale('log')
+ax.set_xscale('log')
+
 plt.show()
 
