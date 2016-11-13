@@ -22,12 +22,13 @@ class Analysis():
 
     def basic_data(self):
         """ assemble basic data """
-        for follower in self.data:
-            login = follower.get('login')
-            self.output[login] = {"followers": follower.get('followers'),
-                                  "following": follower.get('following'),
-                                  "public_gists": follower.get('public_gists'),
-                                  "public_repos": follower.get('public_repos')}
+        for user in self.data:
+            login = user.get('login')
+            self.output[login] = {"followers": user.get('followers'),
+                                  "following": user.get('following'),
+                                  "public_gists": user.get('public_gists'),
+                                  "public_repos": user.get('public_repos'),
+                                  "updated_at": user.get('updated_at')}
 
     def stargazer(self):
         """ count stars per user """
