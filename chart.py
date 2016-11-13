@@ -13,19 +13,20 @@ def make_np(x, group):
          "randoms": data2}
     for user in i[group]:
         facet.append(i[group][user][x])
+    print(facet)
     return np.array(facet)
 
 x1_data = make_np("followers", "librarians")
 y1_data = make_np("public_repos", "librarians")
 
 x2_data = make_np("followers", "randoms")
-y2_data = make_np("followers", "randoms")
+y2_data = make_np("public_repos", "randoms")
 
+plt.axis([0, 150, 0, 150])
 plt.scatter(x1_data, y1_data, color = 'r')
 plt.scatter(x2_data, y2_data, color = 'b')
 
-ax.set_yscale('log')
-ax.set_xscale('log')
+plt.ylabel("public repos")
+plt.xlabel("followers")
 
 plt.show()
-
