@@ -21,14 +21,14 @@ def make_np(facet, group):
         mpl_list = mdate.date2num(facet_list)
     return np.array(mpl_list)
 
-x1_data = make_np("updated_at", "librarians")
-x2_data = make_np("updated_at", "randoms")
+x1_data = make_np("created_at", "librarians")
+x2_data = make_np("created_at", "randoms")
 
-bins = np.histogram(np.hstack((x1_data, x2_data)), bins=120)[1]
+bins = np.histogram(np.hstack((x1_data, x2_data)), bins=20)[1]
 
 fig, ax = plt.subplots()
-ax.xaxis.set_major_locator(mdate.MonthLocator())
-ax.xaxis.set_major_formatter(mdate.DateFormatter('%b'))
+ax.xaxis.set_major_locator(mdate.YearLocator())
+ax.xaxis.set_major_formatter(mdate.DateFormatter('%Y'))
 plt.hist(x1_data, bins, alpha=0.5, label='librarians')
 plt.hist(x2_data, bins, alpha=0.5, label='randoms')
 plt.legend(loc='upper left')

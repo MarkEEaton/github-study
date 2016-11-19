@@ -28,7 +28,8 @@ class Analysis():
                                   "following": user.get('following'),
                                   "public_gists": user.get('public_gists'),
                                   "public_repos": user.get('public_repos'),
-                                  "updated_at": user.get('updated_at')}
+                                  "updated_at": user.get('updated_at'),
+                                  "created_at": user.get('created_at')}
 
     def stargazer(self):
         """ count stars per user """
@@ -42,7 +43,6 @@ class Analysis():
                 pass
             finally:
                 self.output[login].update({"stargazers": stargazer})
-                print("output updated")
 
     def manage_gh_index(self):
         """ iterate through the users and return a list of gh indices """
@@ -99,5 +99,3 @@ if __name__ == "__main__":
          json.dump(librarians.output, file1)
     with open('json/processedrandoms.json', 'w') as file2:
          json.dump(randoms.output, file2)
-    print(len(randoms.output))
-    print(len(librarians.output))
