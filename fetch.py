@@ -85,7 +85,14 @@ def second_round(group):
                 pass
     return user_json
 
-
+def third_round(data):
+    header("3rd")
+    for x in data:
+        if x['bio'] == None:
+            to_pop = data.index(x)
+            data.pop(to_pop)
+            print("no bio. popping.")
+ 
 def extractrepodata(data):
     """ gets json data on the users' repos """
     header("repo")
@@ -128,9 +135,9 @@ def store_it():
 
 if __name__ == "__main__":
     generate_librarians()
-    librarians_data = second_round("librarians")
+    librarians_data = third_round(second_round("librarians"))
     generate_random()
-    randoms_data = second_round("randoms")
+    randoms_data = third_round(second_round("randoms"))
     librarians_repos = extractrepodata(librarians_data)
     randoms_repos = extractrepodata(randoms_data)
     store_it()

@@ -30,7 +30,8 @@ class Analysis():
                                   "public_gists": user.get('public_gists'),
                                   "public_repos": user.get('public_repos'),
                                   "updated_at": user.get('updated_at'),
-                                  "created_at": user.get('created_at')}
+                                  "created_at": user.get('created_at'),
+                                  "bio": user.get('bio')}
 
     def get_languages(self):
         """ count languages """
