@@ -20,6 +20,7 @@ class Analysis():
         self.data = load_user('json/' + group + '_data.json')
         self.repo = load_repo('json/' + group + '_repos.json')
         self.output = {}
+        self.group = group
 
     def basic_data(self):
         """ assemble basic data """
@@ -94,6 +95,9 @@ class Analysis():
                         break
             return(max(count_list))
 
+    def sanity_check(self):
+        print(self.group + ' data: ' + str(len(self.data)))
+        print(self.group + ' repos: ' + str(len(self.repo)))
 
 librarians = Analysis('librarians')
 randoms = Analysis('randoms')
@@ -102,9 +106,11 @@ if __name__ == "__main__":
     librarians.basic_data()
     librarians.stargazer()
     librarians.manage_gh_index()
+    librarians.sanity_check()
     randoms.basic_data()
     randoms.stargazer()
     randoms.manage_gh_index()
+    randoms.sanity_check()
     lang = {'librarians': librarians.get_languages(),
             'randoms': randoms.get_languages()}
     with open('json/processedlibrarians.json', 'w') as file1:
