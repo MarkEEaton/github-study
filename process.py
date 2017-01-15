@@ -96,8 +96,9 @@ class Analysis():
             return(max(count_list))
 
     def sanity_check(self):
-        print(self.group + ' data: ' + str(len(self.data)))
-        print(self.group + ' repos: ' + str(len(self.repo)))
+        """ gives data lengths to make sure we are on the right track """
+        print(self.group + ' data: ' + str(len(self.data)) + '. \tOutput to json/processed' + self.group + '.json')
+        print(self.group + ' repos: ' + str(len(self.repo)) + '. \tOutput to json/processed' + self.group + '.json')
 
 librarians = Analysis('librarians')
 randoms = Analysis('randoms')

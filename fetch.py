@@ -24,7 +24,7 @@ def header(number):
 def generate_random():
     """ generates a list of random users and filters them. Ignores private repos """
     header("1st")
-    while len(filtered_users_randoms) < 20:
+    while len(filtered_users_randoms) < 250:
         user = random.randint(1, 20000000)
         first_round(user, "randoms")
 
