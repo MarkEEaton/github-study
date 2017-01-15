@@ -7,6 +7,7 @@ import check
 import random
 import collections
 import find_librarians
+import pprint
 
 filtered_users_librarians = []
 filtered_users_randoms = []
@@ -92,6 +93,9 @@ def third_round(data):
             to_pop = data.index(x)
             data.pop(to_pop)
             print("no bio. popping.")
+        else:
+            print("has bio. keeping.")
+    return data
  
 def extractrepodata(data):
     """ gets json data on the users' repos """
@@ -136,6 +140,7 @@ def store_it():
 if __name__ == "__main__":
     generate_librarians()
     librarians_data = third_round(second_round("librarians"))
+    pprint.pprint(librarians_data)
     generate_random()
     randoms_data = third_round(second_round("randoms"))
     librarians_repos = extractrepodata(librarians_data)

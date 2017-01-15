@@ -34,7 +34,7 @@ def find(keyword):
     loop(url1) # search descending
     loop(url2) # search ascending
     
-    for x in (sorted(set(output))):
+    #for x in (sorted(set(output))):
     print(str(len(set(output))) + " librarians found.")
 
     return sorted(set(output))
