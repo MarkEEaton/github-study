@@ -1,5 +1,6 @@
 import json
 import random
+from collections import Counter
 
 with open('json/librarians_data.json', 'r') as a:
     ld = json.load(a)
@@ -17,6 +18,7 @@ for user in ld:
     else:
         ld.remove(user)
 
+# same for randoms
 for user in rd:
     if user['login'] in rr:
         pass
@@ -24,22 +26,26 @@ for user in rd:
         rd.remove(user)
 
 
-# randomly reduce the randoms down to the size of the librarians
-rd_list = []
-rr_list = []
+### randomly reduce the randoms down to the size of the librarians
+rd_names = []
+
+# create user lists
+for user in rd:
+    rd_names.append(user['login'])
+rd_names = rd_names[:69]
+
+for user in rr.keys():
+    if user in rd_names:
+        pass
+    else:
+        rr.pop(user)
 
 for user in rd:
-    rd_list.append(user['login'])
-for user in rr.keys():
-    rr_list.append(user)
+    for k, v in user.items():
+        if k == 'login':
+            if v in rd_names:
+                pass
+            else:
+                rd.pop(user)
 
-rr_list = random.sample(rr_list, 69)
-
-final_list = []
-
-for user in rd_list:
-    if user in rr_list:
-        final_list.append(user) 
-    else:
-        pass
-
+print(len(rd))

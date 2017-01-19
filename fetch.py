@@ -24,7 +24,7 @@ def header(number):
 def generate_random():
     """ generates a list of random users and filters them. Ignores private repos """
     header("1st")
-    while len(filtered_users_randoms) < 250:
+    while len(filtered_users_randoms) < 20:
         user = random.randint(1, 20000000)
         first_round(user, "randoms")
 
@@ -88,13 +88,9 @@ def second_round(group):
 
 def third_round(data):
     header("3rd")
-    for x in data:
-        if x['bio'] == None:
-            to_pop = data.index(x)
-            data.pop(to_pop)
-            print("no bio. popping.")
-        else:
-            print("has bio. keeping.")
+    print(len(data))
+    data[:] = [x for x in data if x['bio'] != None]
+    print(len(data))
     return data
  
 def extractrepodata(data):
@@ -140,7 +136,6 @@ def store_it():
 if __name__ == "__main__":
     generate_librarians()
     librarians_data = third_round(second_round("librarians"))
-    pprint.pprint(librarians_data)
     generate_random()
     randoms_data = third_round(second_round("randoms"))
     librarians_repos = extractrepodata(librarians_data)
