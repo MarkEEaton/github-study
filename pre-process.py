@@ -12,40 +12,19 @@ with open('json/randoms_repos.json', 'r') as d:
     rr = json.load(d)
 
 # if user is not in the repolist, remove it
-for user in ld:
-    if user['login'] in lr:
-        pass
-    else:
-        ld.remove(user)
+ldf = [user for user in ld if (user['login'] in lr)]
+rdf = [user for user in rd if (user['login'] in rr)]
 
-# same for randoms
-for user in rd:
-    if user['login'] in rr:
-        pass
-    else:
-        rd.remove(user)
+# randomly reduce the randoms down to the size of the librarians
+rdf_names = []
+for user in rdf:
+    rdf_names.append(user['login'])
+rdf_names = rdf_names[:len(ldf)]
 
+rrf = [user for user in rr.keys() if (user in rdf_names)]
+rdf2 = [user for user in rd if (user['login'] in rdf_names)]
 
-### randomly reduce the randoms down to the size of the librarians
-rd_names = []
-
-# create user lists
-for user in rd:
-    rd_names.append(user['login'])
-rd_names = rd_names[:69]
-
-for user in rr.keys():
-    if user in rd_names:
-        pass
-    else:
-        rr.pop(user)
-
-for user in rd:
-    for k, v in user.items():
-        if k == 'login':
-            if v in rd_names:
-                pass
-            else:
-                rd.pop(user)
-
-print(len(rd))
+print(len(ldf))
+print(len(lr))
+print(len(rdf2))
+print(len(rrf))
