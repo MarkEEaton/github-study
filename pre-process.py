@@ -28,3 +28,12 @@ print(len(ldf))
 print(len(lr))
 print(len(rdf2))
 print(len(rrf))
+
+with open('json/pre-processedld.json', 'w') as e:
+    json.dump(ldf, e)
+with open('json/pre-processedlr.json', 'w') as f:
+    json.dump(lr, f)
+with open('json/pre-processedrd.json', 'w') as g:
+    json.dump(rdf2, g)
+with open('json/pre-processedrr.json', 'w') as h:
+    json.dump(rrf, h)
