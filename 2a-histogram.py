@@ -4,6 +4,10 @@ import json
 import matplotlib.dates as mdate
 import datetime
 
+"""
+Histogram of when the user was created
+"""
+
 with open('json/processedlibrarians.json', 'r') as file1:
     data1 = json.load(file1)
 with open('json/processedrandoms.json', 'r') as file2:
