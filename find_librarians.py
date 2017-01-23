@@ -5,17 +5,17 @@ import json
 import re
 import sys
 import os
+import time
 
 output = []
 
 def search(url):
     """ make the api call; store data in output """
-    global data_json, output, header_link
-    data = requests.get(url, auth=(key.keyname, key.keysecret))
-    data_json = data.json()['items']
-    for user in data_json:
-        output.append(user['login'])
-    header_link = data.headers.get('link', None)
+    global data, output, header_link
+    data = []
+    req = requests.get(url, auth=(key.keyname, key.keysecret))
+    data.append(req.json())
+    header_link = req.headers.get('link', None)
 
 def loop(url):
     """ loop through the pages of results """
@@ -27,8 +27,13 @@ def loop(url):
             search(url)
         else:
             header_link = None
+    for page in data:
+        for user in page['items']:
+            output.append(user['login'])
 
 def find(keyword):
+    print('waiting for search API, please be patient.')
+    time.sleep(60)
     url1 = "https://api.github.com/search/users?q={}&per_page=100&sort=joined&order=desc".format(keyword)
     url2 = "https://api.github.com/search/users?q={}&per_page=100&sort=joined&order=asc".format(keyword)
     loop(url1) # search descending

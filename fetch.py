@@ -26,14 +26,18 @@ def generate_random():
     header("1st")
     while len(filtered_users_randoms) < 200:
         user = random.randint(1, 20000000)
-        first_round(user, "randoms")
+        first_round(user, 'randoms')
 
 def generate_librarians():
     """ filters a list of librarians. Ignores private repos """
     header("1st")
-    users = find_librarians.find("librarian")
-    for user in users:
-        first_round(user, "librarians")
+    users1 = find_librarians.find('libraries')
+    users2 = find_librarians.find('librarian')
+    users3 = find_librarians.find('library')
+    users = users1 + users2 + users3
+    print(str(len(list(set(users)))) + ' total librarians found.')
+    for user in set(users):
+        first_round(user, 'librarians')
 
 def first_round(user, group):
     """ does the first round of filtering. user must have been active in the last 30 days """
@@ -104,7 +108,7 @@ def extractrepodata(data):
         check_rate_limit(request_data)
         if request_data.status_code != 200:
             print('error: ' + str(request_data.status_code))
-        elif request_data.text == "[]":
+        elif request_data.json() == []:
             print(user['login'] + " no data from repo request")
             pass
         else:
