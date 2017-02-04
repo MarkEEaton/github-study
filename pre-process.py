@@ -1,5 +1,6 @@
 import json
 import random
+import pprint
 from collections import Counter
 
 with open('json/librarians_data.json', 'r') as a:
@@ -21,9 +22,13 @@ for user in rdf:
     rdf_names.append(user['login'])
 rdf_names = rdf_names[:len(ldf)]
 
-rrf = [user for user in rr.keys() if (user in rdf_names)]
+# this line needs to produce multidimensional data, not a simple list. Fix this.
+rrf = [user for user in rr if (user in rdf_names)]
+
+
 rdf2 = [user for user in rd if (user['login'] in rdf_names)]
 
+pprint.pprint(rrf)
 print(len(ldf))
 print(len(lr))
 print(len(rdf2))

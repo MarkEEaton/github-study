@@ -35,5 +35,6 @@ ax.xaxis.set_major_locator(mdate.YearLocator())
 ax.xaxis.set_major_formatter(mdate.DateFormatter('%Y'))
 plt.hist([x1_data, x2_data], bins, alpha=0.5, label=['librarians', 'randoms'])
 plt.legend(loc='upper left')
+plt.suptitle('Date user was created')
 
 plt.show()

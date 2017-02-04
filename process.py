@@ -3,22 +3,27 @@ import pprint
 from collections import Counter
 
 
-def load_user(file):
+def load_user(file_name):
     """" load the user data """
-    with open(file, 'r') as user_file:
+    with open(file_name, 'r') as user_file:
         return json.load(user_file)
 
 
-def load_repo(file):
+def load_repo(file_name):
     """ load the repo data """
-    with open(file, 'r') as repo_file:
+    with open(file_name, 'r') as repo_file:
         return json.load(repo_file)
 
 
 class Analysis():
     def __init__(self, group):
-        self.data = load_user('json/' + group + '_data.json')
-        self.repo = load_repo('json/' + group + '_repos.json')
+        if group == 'librarians':
+            self.data = load_user('json/pre-processedld.json')
+            self.repo = load_repo('json/pre-processedlr.json')
+        elif group == 'randoms':
+            self.data = load_user('json/pre-processedrd.json')
+            self.repo = load_repo('json/pre-processedrr.json')
+        pprint.pprint(self.repo)
         self.output = {}
         self.group = group
 
@@ -100,14 +105,14 @@ class Analysis():
         print(self.group + ' data: ' + str(len(self.data)) + '. \tOutput to json/processed' + self.group + '.json')
         print(self.group + ' repos: ' + str(len(self.repo)) + '. \tOutput to json/processed' + self.group + '.json')
 
-librarians = Analysis('librarians')
+#librarians = Analysis('librarians')
 randoms = Analysis('randoms')
 
 if __name__ == "__main__":
-    librarians.basic_data()
-    librarians.stargazer()
-    librarians.manage_gh_index()
-    librarians.sanity_check()
+    #librarians.basic_data()
+    #librarians.stargazer()
+    #librarians.manage_gh_index()
+    #librarians.sanity_check()
     randoms.basic_data()
     randoms.stargazer()
     randoms.manage_gh_index()

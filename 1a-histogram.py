@@ -36,5 +36,6 @@ ax.xaxis.set_major_formatter(mdate.DateFormatter('%b'))
 plt.hist([x1_data, x2_data], bins, alpha=0.5, label=['librarians', 'randoms'])
 #plt.hist(x2_data, bins, alpha=0.5, label='randoms')
 plt.legend(loc='upper left')
+plt.suptitle('Date of last update')
 
 plt.show()

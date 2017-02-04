@@ -24,16 +24,16 @@ def header(number):
 def generate_random():
     """ generates a list of random users and filters them. Ignores private repos """
     header("1st")
-    while len(filtered_users_randoms) < 200:
+    while len(filtered_users_randoms) < 1000:
         user = random.randint(1, 20000000)
         first_round(user, 'randoms')
 
 def generate_librarians():
     """ filters a list of librarians. Ignores private repos """
     header("1st")
-    users1 = find_librarians.find('libraries')
-    users2 = find_librarians.find('librarian')
     users3 = find_librarians.find('library')
+    users2 = find_librarians.find('librarian')
+    users1 = find_librarians.find('libraries')
     users = users1 + users2 + users3
     print(str(len(list(set(users)))) + ' total librarians found.')
     for user in set(users):
