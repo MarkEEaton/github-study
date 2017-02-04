@@ -32,15 +32,17 @@ y1_data = make_np("following", "librarians")
 # this slice needs to be removed once data lengths are harmonized
 y2_data = make_np("following", "randoms")[:98]
 
-d = [[x1_data], [y1_data], [x2_data], [y2_data]]
+d1 = [[x1_data], [y1_data]]
+d2 = [[x2_data], [y2_data]]
 xaxes = ['followers', 'following', 'followers', 'following']
 titles = ['librarians', 'librarians', 'randoms', 'randoms']
 
 sns.set(style='darkgrid')
-f,a = plt.subplots(2,2)
+f,a = plt.subplots(1,2)
 a = a.ravel()
 for idx, ax in enumerate(a):
-    ax.hist(d[idx], bins=50)
+    ax.hist(d1[idx], bins=70)
+    ax.hist(d2[idx], bins=70)
     ax.set_title(titles[idx])
     ax.set_xlabel(xaxes[idx])
     ax.set_ylim([0, 90])
