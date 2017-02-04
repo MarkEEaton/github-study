@@ -105,14 +105,14 @@ class Analysis():
         print(self.group + ' data: ' + str(len(self.data)) + '. \tOutput to json/processed' + self.group + '.json')
         print(self.group + ' repos: ' + str(len(self.repo)) + '. \tOutput to json/processed' + self.group + '.json')
 
-#librarians = Analysis('librarians')
+librarians = Analysis('librarians')
 randoms = Analysis('randoms')
 
 if __name__ == "__main__":
-    #librarians.basic_data()
-    #librarians.stargazer()
-    #librarians.manage_gh_index()
-    #librarians.sanity_check()
+    librarians.basic_data()
+    librarians.stargazer()
+    librarians.manage_gh_index()
+    librarians.sanity_check()
     randoms.basic_data()
     randoms.stargazer()
     randoms.manage_gh_index()
