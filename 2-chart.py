@@ -22,8 +22,8 @@ x2_data = make_np("followers", "randoms")
 y2_data = make_np("stargazers", "randoms")
 
 plt.axis([-2, 120, -2, 170])
-plt.scatter(x1_data, y1_data, color = 'r')
-plt.scatter(x2_data, y2_data, color = 'b')
+plt.scatter(x1_data, y1_data, color='k', alpha=1)
+plt.scatter(x2_data, y2_data, color='k', alpha=0.25)
 
 plt.ylabel("stars")
 plt.xlabel("followers")

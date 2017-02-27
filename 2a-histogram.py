@@ -33,7 +33,7 @@ bins = np.histogram(np.hstack((x1_data, x2_data)), bins=20)[1]
 fig, ax = plt.subplots()
 ax.xaxis.set_major_locator(mdate.YearLocator())
 ax.xaxis.set_major_formatter(mdate.DateFormatter('%Y'))
-plt.hist([x1_data, x2_data], bins, alpha=0.5, label=['librarians', 'randoms'])
+plt.hist([x1_data, x2_data], bins, alpha=1, label=['librarians', 'randoms'], color=['k', '0.75'])
 plt.legend(loc='upper left')
 plt.suptitle('Date user was created')
 

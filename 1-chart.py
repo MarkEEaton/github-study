@@ -26,8 +26,8 @@ x2_data = make_np("followers", "randoms")
 y2_data = make_np("public_repos", "randoms")
 
 plt.axis([-2, 150, -2, 150])
-plt.scatter(x1_data, y1_data, alpha=0.5, color='b')
-plt.scatter(x2_data, y2_data, alpha=0.5, color='g')
+plt.scatter(x1_data, y1_data, alpha=1, color='k')
+plt.scatter(x2_data, y2_data, alpha=0.25, color='k')
 
 plt.ylabel("public repos")
 plt.xlabel("followers")
