@@ -12,7 +12,6 @@ with open('json/randoms_data.json', 'r') as c:
 with open('json/randoms_repos.json', 'r') as d:
     rr = json.load(d)
 
-# if user is not in the repolist, remove it
 ldf = [user for user in ld if (user['login'] in lr)]
 rdf = [user for user in rd if (user['login'] in rr)]
 
@@ -22,13 +21,12 @@ for user in rdf:
     rdf_names.append(user['login'])
 rdf_names = rdf_names[:len(ldf)]
 
-# this line needs to produce multidimensional data, not a simple list. Fix this.
-rrf = [user for user in rr if (user in rdf_names)]
+# check if a user is in rdf and if so add to a dict of repos
+rrf = {user : value for user, value in rr.items() if (user in rdf_names)}  
 
-
+# check if a user is in rdf and if so add to a list of users
 rdf2 = [user for user in rd if (user['login'] in rdf_names)]
 
-pprint.pprint(rrf)
 print(len(ldf))
 print(len(lr))
 print(len(rdf2))

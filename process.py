@@ -23,7 +23,6 @@ class Analysis():
         elif group == 'randoms':
             self.data = load_user('json/pre-processedrd.json')
             self.repo = load_repo('json/pre-processedrr.json')
-        pprint.pprint(self.repo)
         self.output = {}
         self.group = group
 

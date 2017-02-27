@@ -34,7 +34,6 @@ fig, ax = plt.subplots()
 ax.xaxis.set_major_locator(mdate.MonthLocator())
 ax.xaxis.set_major_formatter(mdate.DateFormatter('%b'))
 plt.hist([x1_data, x2_data], bins, alpha=1, label=['librarians', 'randoms'], color=['k', '0.75'])
-#plt.hist(x2_data, bins, alpha=0.5, label='randoms')
 plt.legend(loc='upper left')
 plt.suptitle('Date of last update')
 
