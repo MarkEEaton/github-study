@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import json
+import seaborn as sns
 
 """
 A scatterplot with number of public repos and number of followers.
@@ -19,19 +20,20 @@ def make_np(facet, group):
         facet_list.append(i[group][user][facet])
     return np.array(facet_list)
 
-x1_data = make_np("followers", "librarians")
+x1_data = make_np("following", "librarians")
 y1_data = make_np("public_repos", "librarians")
 
-x2_data = make_np("followers", "randoms")
+x2_data = make_np("following", "randoms")
 y2_data = make_np("public_repos", "randoms")
 
+sns.set(style='darkgrid')
 plt.axis([-2, 150, -2, 150])
-plt.scatter(x1_data, y1_data, alpha=1, color='k')
-plt.scatter(x2_data, y2_data, alpha=0.25, color='k')
+plt.scatter(x1_data, y1_data, alpha=1, color='k', s=50)
+plt.scatter(x2_data, y2_data, facecolor='1', edgecolor='0', s=50)
 
-plt.ylabel("public repos")
-plt.xlabel("followers")
+plt.ylabel("Public repos")
+plt.xlabel("Following")
 plt.legend(('Librarians', 'Randoms'), loc='upper right')
-plt.suptitle('Activity measured by public repos and followers')
+plt.suptitle('Activity')
 
 plt.show()

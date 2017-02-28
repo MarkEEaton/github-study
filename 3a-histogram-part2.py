@@ -8,7 +8,7 @@ import seaborn as sns
 from collections import Counter
 
 """
-Histogram grid of followers
+Histogram grid of following
 """
 
 with open('json/processedlibrarians.json', 'r') as file1:
@@ -25,8 +25,8 @@ def make_np(facet, group):
         facet_list.append(i[group][user][facet]) 
     return np.array(facet_list)
 
-x1_data = make_np("followers", "librarians")
-x2_data = make_np("followers", "randoms")
+x1_data = make_np("following", "librarians")
+x2_data = make_np("following", "randoms")
 
 # add one to all values because 0 can't display on a log scale
 x1_data += 1
@@ -39,8 +39,8 @@ fig, ax = plt.subplots()
 plt.hist([x1_data, x2_data], bins, alpha=1, label=['librarians', 'randoms'], color=['k', '0.75'], rwidth=1)
 plt.gca().set_xscale('log')
 plt.legend(loc='upper right')
-plt.suptitle('Followers')
-plt.xlabel('Followers')
+plt.suptitle('Following')
+plt.xlabel('Following')
 plt.ylabel('Number of librarians / randoms')
 
 plt.show()

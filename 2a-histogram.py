@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import json
 import matplotlib.dates as mdate
 import datetime
+import seaborn as sns
 
 """
 Histogram of when the user was created
@@ -30,11 +31,14 @@ x2_data = make_np("created_at", "randoms")
 
 bins = np.histogram(np.hstack((x1_data, x2_data)), bins=20)[1]
 
+sns.set(style='darkgrid')
 fig, ax = plt.subplots()
 ax.xaxis.set_major_locator(mdate.YearLocator())
 ax.xaxis.set_major_formatter(mdate.DateFormatter('%Y'))
 plt.hist([x1_data, x2_data], bins, alpha=1, label=['librarians', 'randoms'], color=['k', '0.75'])
 plt.legend(loc='upper left')
 plt.suptitle('Date user was created')
+plt.xlabel('Date the account was created')
+plt.ylabel('Number of librarians / randoms')
 
 plt.show()
