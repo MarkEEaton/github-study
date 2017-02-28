@@ -5,6 +5,7 @@ import matplotlib.dates as mdate
 import datetime
 import pandas as pd
 import seaborn as sns
+from collections import Counter
 
 """
 Histogram grid of followers
@@ -25,11 +26,14 @@ def make_np(facet, group):
     return np.array(facet_list)
 
 x1_data = make_np("followers", "librarians")
-# this slice needs to be removed once data lengths are harmonized
-x2_data = make_np("followers", "randoms")[:98]
+x2_data = make_np("followers", "randoms")
+
+# add one to all values because 0 can't display on a log scale
+x1_data += 1
+x2_data += 1
 
 sns.set(style='darkgrid')
-bins = np.logspace(1.0, 4.0, 20)
+bins = np.logspace(0.0, 4.0, 20)
 
 fig, ax = plt.subplots()
 plt.hist([x1_data, x2_data], bins, alpha=1, label=['librarians', 'randoms'], color=['k', '0.75'], rwidth=1)
