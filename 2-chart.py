@@ -19,13 +19,23 @@ def make_np(facet, group):
 x1_data = make_np('followers', 'librarians')
 y1_data = make_np('stargazers', 'librarians')
 
+x1_avg = np.mean(np.ma.masked_greater(x1_data, 300))
+y1_avg = np.mean(np.ma.masked_greater(y1_data, 300))
+
 x2_data = make_np('followers', 'randoms')
 y2_data = make_np('stargazers', 'randoms')
 
+x2_avg = np.mean(np.ma.masked_greater(x2_data, 300))
+y2_avg = np.mean(np.ma.masked_greater(y2_data, 300))
+
 sns.set(style='darkgrid')
-plt.axis([-2, 120, -2, 170])
-plt.scatter(x1_data, y1_data, color='k', alpha=1, s=50)
+plt.axis([-5, 250, -5, 250])
+plt.scatter(x1_data, y1_data, color='k', s=50)
 plt.scatter(x2_data, y2_data, facecolor='1', edgecolor='0', s=50)
+plt.scatter(x1_avg, y1_avg, marker='*', facecolor='k', 
+            edgecolor='w', linewidth=1, s=200)
+plt.scatter(x2_avg, y2_avg, marker='*', facecolor='1', 
+            edgecolor='0', linewidth=1, s=200)
 
 plt.ylabel('Stars')
 plt.xlabel('Followers')

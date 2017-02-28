@@ -23,13 +23,23 @@ def make_np(facet, group):
 x1_data = make_np("following", "librarians")
 y1_data = make_np("public_repos", "librarians")
 
+x1_avg = np.mean(np.ma.masked_greater(x1_data, 300))
+y1_avg = np.mean(np.ma.masked_greater(y1_data, 300))
+
 x2_data = make_np("following", "randoms")
 y2_data = make_np("public_repos", "randoms")
 
+x2_avg = np.mean(np.ma.masked_greater(x2_data, 300))
+y2_avg = np.mean(np.ma.masked_greater(y2_data, 300))
+
 sns.set(style='darkgrid')
-plt.axis([-2, 150, -2, 150])
-plt.scatter(x1_data, y1_data, alpha=1, color='k', s=50)
+plt.axis([-5, 300, -5, 300])
+plt.scatter(x1_data, y1_data, color='k', s=50)
 plt.scatter(x2_data, y2_data, facecolor='1', edgecolor='0', s=50)
+plt.scatter(x1_avg, y1_avg, marker='*', facecolor='k', 
+            edgecolor='w', linewidth=1, s=200)
+plt.scatter(x2_avg, y2_avg, marker='*', facecolor='w', 
+            edgecolor='k', linewidth=1, s=200)
 
 plt.ylabel("Public repos")
 plt.xlabel("Following")
