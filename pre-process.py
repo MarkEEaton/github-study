@@ -41,9 +41,15 @@ rrf = {user : value for user, value in rr.items() if (user in rdf_names)}
 # reduce random users to the length of rdf_names 
 rdf2 = [user for user in rd if (user['login'] in rdf_names)]
 
+# remove duplicates in rdf2
+rdf3 = []
+for x in rdf2:
+    if x not in rdf3:
+        rdf3.append(x)
+
 print('Length of librarians data: ' + str(len(ldf)))
 print('Length of librarians repos: ' + str(len(lrf)))
-print('Length of randoms data: ' + str(len(rdf2)))
+print('Length of randoms data: ' + str(len(rdf3)))
 print('Length of randoms repos: ' + str(len(rrf)))
 
 with open('json/pre-processedld.json', 'w') as e:
@@ -51,6 +57,6 @@ with open('json/pre-processedld.json', 'w') as e:
 with open('json/pre-processedlr.json', 'w') as f:
     json.dump(lr, f)
 with open('json/pre-processedrd.json', 'w') as g:
-    json.dump(rdf2, g)
+    json.dump(rdf3, g)
 with open('json/pre-processedrr.json', 'w') as h:
     json.dump(rrf, h)
