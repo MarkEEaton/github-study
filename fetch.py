@@ -24,27 +24,34 @@ def header(number):
 def generate_random():
     """ generates a list of random users and filters them. Ignores private repos """
     header("1st")
-    while len(filtered_users_randoms) < 1000:
-        user = random.randint(1, 20000000)
+    while len(filtered_users_randoms) < 3000:
+        user = random.randint(1, 27000000)
         first_round(user, 'randoms')
 
 def generate_librarians():
     """ filters a list of librarians. Ignores private repos """
     header("1st")
+    # users5 = find_librarians.find('bibliothecaire') 
+    # users5 is not used because it produces no results
+    users4 = find_librarians.find('bibliotheque')
     users3 = find_librarians.find('library')
     users2 = find_librarians.find('librarian')
     users1 = find_librarians.find('libraries')
-    users = users1 + users2 + users3
+    users = users1 + users2 + users3 + users4
     print(str(len(list(set(users)))) + ' total librarians found.')
     for user in set(users):
         first_round(user, 'librarians')
 
 def first_round(user, group):
-    """ does the first round of filtering. user must have been active in the last 30 days """
+    """ first round of filtering. user must have repos and been active in the last 90 days """
+
+    # make the api call
     if isinstance(user, str):
         user_events = requests.get("https://api.github.com/users/{}/events".format(user), auth=(key.keyname, key.keysecret))
     elif isinstance(user, int):
         user_events = requests.get("https://api.github.com/user/{}/events".format(user), auth=(key.keyname, key.keysecret))
+
+    # check the rate limit and if the user has repos
     check_rate_limit(user_events)
     if user_events.status_code != 200:
         print('error: ' + str(user_events.status_code))
@@ -52,16 +59,23 @@ def first_round(user, group):
     elif user_events.text == "[]":
         print('no repos. passing.')
         pass
+
+    # if the user has repos, check if they've been active in the last 90 days
     else:
-        login = str(json.loads(user_events.text)[0]['actor']['login'])
-        created_at = str(json.loads(user_events.text)[0]['created_at'])
-        check1 = check.thirty_days(json.loads(user_events.text))
+        # this requires another api call
+        if isinstance(user, str):
+            user_updated_at = requests.get("https://api.github.com/users/{}".format(user), auth=(key.keyname, key.keysecret))
+        elif isinstance(user, int):
+            user_updated_at = requests.get("https://api.github.com/user/{}".format(user), auth=(key.keyname, key.keysecret))
+        login = str(json.loads(user_updated_at.text)['login'])
+        updated_at = str(json.loads(user_updated_at.text)['updated_at'])
+        check1 = check.ninety_days(json.loads(user_updated_at.text))
         if check1 != None and group == "librarians":
             filtered_users_librarians.append(login)
-            print('adding librarian user: ' + login + ' ' + created_at)
+            print('adding librarian user: ' + login + ' ' + updated_at)
         elif check1 != None and group == "randoms":
             filtered_users_randoms.append(login)
-            print('adding randoms user: ' + login + ' ' + created_at)
+            print('adding randoms user: ' + login + ' ' + updated_at)
 
 def second_round(group):
     """ does the second round of filtering. user account must be more than 30 days old """
@@ -91,10 +105,11 @@ def second_round(group):
     return user_json
 
 def third_round(data):
-    header("3rd")
-    print(len(data))
+    """ check if users have bios """
+    header('3rd')
+    print('All users: ' + str(len(data)))
     data[:] = [x for x in data if x['bio'] != None]
-    print(len(data))
+    print('Users with bios: ' + str(len(data)))
     return data
  
 def extractrepodata(data):
@@ -120,7 +135,7 @@ def check_rate_limit(request_data):
     """ keeps track of rate limiting and sleeps when necessary """
     x = request_data.headers['x-ratelimit-remaining']
     print("request quota remaining: " + str(x) + "   ", end="")
-    if int(x) < 20:
+    if int(x) < 50:
         print('sleeping...')
         time.sleep(300)
     else:
