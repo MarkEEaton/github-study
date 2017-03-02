@@ -1,5 +1,4 @@
 import json
-import pprint
 from collections import Counter
 
 
@@ -42,8 +41,8 @@ class Analysis():
         """ count languages """
         language_counter = []
         for user in self.repo:
-             for repo in self.repo[user]:
-                 language_counter.append(repo['language'])
+            for repo in self.repo[user]:
+                language_counter.append(repo['language'])
         return dict(Counter(language_counter))
 
     def stargazer(self):
@@ -100,8 +99,10 @@ class Analysis():
 
     def sanity_check(self):
         """ gives data lengths to make sure we are on the right track """
-        print(self.group + ' data: ' + str(len(self.data)) + '. \tOutput to json/processed' + self.group + '.json')
-        print(self.group + ' repos: ' + str(len(self.repo)) + '. \tOutput to json/processed' + self.group + '.json')
+        print(self.group + ' data: ' + str(len(self.data)) +
+              '. \tOutput to json/processed' + self.group + '.json')
+        print(self.group + ' repos: ' + str(len(self.repo)) +
+              '. \tOutput to json/processed' + self.group + '.json')
 
 librarians = Analysis('librarians')
 randoms = Analysis('randoms')
@@ -118,8 +119,8 @@ if __name__ == "__main__":
     lang = {'librarians': librarians.get_languages(),
             'randoms': randoms.get_languages()}
     with open('json/processedlibrarians.json', 'w') as file1:
-         json.dump(librarians.output, file1)
+        json.dump(librarians.output, file1)
     with open('json/processedrandoms.json', 'w') as file2:
-         json.dump(randoms.output, file2)
+        json.dump(randoms.output, file2)
     with open('json/processedlanguages.json', 'w') as file3:
-         json.dump(lang, file3)
+        json.dump(lang, file3)

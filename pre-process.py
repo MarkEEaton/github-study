@@ -1,6 +1,4 @@
 import json
-import random
-from collections import Counter
 from jsontriage import triage
 
 with open('json/librarians_data.json', 'r') as a:
@@ -35,10 +33,10 @@ for user in rdf:
     rdf_names.append(user['login'])
 rdf_names = rdf_names[:len(ldf2)]
 
-# reduce random repos to the length of rdf_names 
-rrf = {user : value for user, value in rr.items() if (user in rdf_names)}  
+# reduce random repos to the length of rdf_names
+rrf = {user: value for user, value in rr.items() if (user in rdf_names)}
 
-# reduce random users to the length of rdf_names 
+# reduce random users to the length of rdf_names
 rdf2 = [user for user in rd if (user['login'] in rdf_names)]
 
 # remove duplicates in rdf2

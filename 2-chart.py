@@ -12,6 +12,7 @@ with open('json/processedlibrarians.json', 'r') as file1:
 with open('json/processedrandoms.json', 'r') as file2:
     data2 = json.load(file2)
 
+
 def make_np(facet, group):
     facet_list = []
     i = {'librarians': data1,
@@ -35,9 +36,9 @@ y2_avg = np.mean(y2_data)
 sns.set(style='darkgrid')
 plt.scatter(x1_data, y1_data, color='k', s=50)
 plt.scatter(x2_data, y2_data, facecolor='1', edgecolor='0', s=50)
-plt.scatter(x1_avg, y1_avg, marker='*', facecolor='k', 
+plt.scatter(x1_avg, y1_avg, marker='*', facecolor='k',
             edgecolor='w', linewidth=1, s=200)
-plt.scatter(x2_avg, y2_avg, marker='*', facecolor='w', 
+plt.scatter(x2_avg, y2_avg, marker='*', facecolor='w',
             edgecolor='k', linewidth=1, s=200)
 
 plt.xscale('log')

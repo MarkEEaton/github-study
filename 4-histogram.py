@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import json
-import matplotlib.dates as mdate
-import datetime
 import seaborn as sns
 
 """
@@ -30,7 +28,8 @@ bins = np.histogram(np.hstack((x1_data, x2_data)), bins=12)[1]
 
 sns.set(style='darkgrid')
 fig, ax = plt.subplots()
-plt.hist([x1_data, x2_data], bins, alpha=1, label=['librarians', 'randoms'], color=['k', '0.75'], rwidth=0.75)
+plt.hist([x1_data, x2_data], bins, alpha=1,
+         label=['librarians', 'randoms'], color=['k', '0.75'], rwidth=0.75)
 plt.legend(loc='upper right')
 plt.suptitle('Distribution of gh-index')
 plt.xlabel('gh-index')
