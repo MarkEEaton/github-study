@@ -20,20 +20,20 @@ rdf = [user for user in rd if (user['login'] in rr)]
 
 # manually do triage of librarians / non-librarians
 print('Librarians before triage: ' + str(len(ldf)))
-ldf = triage(ldf)
-print('Librarians after triage: ' + str(len(ldf)))
+ldf2 = triage(ldf)
+print('Librarians after triage: ' + str(len(ldf2)))
 
 # reduce librarians repos down to the size of triaged librarians
-ldf_names = []
-for user in ldf:
-    ldf_names.append(user['login'])
-lrf = {user : value for user, value in lr.items() if (user in ldf_names)}
+ldf2_names = []
+for user in ldf2:
+    ldf2_names.append(user['login'])
+lrf = {user: value for user, value in lr.items() if (user in ldf2_names)}
 
 # randomly reduce the randoms down to the size of the librarians
 rdf_names = []
 for user in rdf:
     rdf_names.append(user['login'])
-rdf_names = rdf_names[:len(ldf)]
+rdf_names = rdf_names[:len(ldf2)]
 
 # reduce random repos to the length of rdf_names 
 rrf = {user : value for user, value in rr.items() if (user in rdf_names)}  
@@ -47,15 +47,15 @@ for x in rdf2:
     if x not in rdf3:
         rdf3.append(x)
 
-print('Length of librarians data: ' + str(len(ldf)))
+print('Length of librarians data: ' + str(len(ldf2)))
 print('Length of librarians repos: ' + str(len(lrf)))
 print('Length of randoms data: ' + str(len(rdf3)))
 print('Length of randoms repos: ' + str(len(rrf)))
 
 with open('json/pre-processedld.json', 'w') as e:
-    json.dump(ldf, e)
+    json.dump(ldf2, e)
 with open('json/pre-processedlr.json', 'w') as f:
-    json.dump(lr, f)
+    json.dump(lrf, f)
 with open('json/pre-processedrd.json', 'w') as g:
     json.dump(rdf3, g)
 with open('json/pre-processedrr.json', 'w') as h:

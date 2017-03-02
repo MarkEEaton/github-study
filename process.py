@@ -63,9 +63,8 @@ class Analysis():
         """ iterate through the users and return a list of gh indices """
         for user in self.repo:
             login = self.repo[user][0]['owner']['login']
-            self.output[login].update({'gh-index':
-                                       self.get_gh_index(user,
-                                                         self.repo[user])})
+            gh_data = {"gh-index": self.get_gh_index(user, self.repo[user])}
+            self.output[login].update(gh_data)
 
     def get_gh_index(self, user, user_repo_list):
         """ get the gh_index for a user """
