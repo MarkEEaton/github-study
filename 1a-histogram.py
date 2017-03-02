@@ -16,6 +16,7 @@ with open('json/processedrandoms.json', 'r') as file2:
 
 
 def make_np(facet, group):
+    """ make the datasets as numpy arrays"""
     facet_list = []
     i = {'librarians': data1,
          'randoms': data2}
@@ -33,13 +34,18 @@ bins = np.histogram(np.hstack((x1_data, x2_data)), bins=20)[1]
 
 sns.set(style='darkgrid')
 fig, ax = plt.subplots()
+
+# set up the x-axis by date
 ax.xaxis.set_major_locator(mdate.MonthLocator())
 ax.xaxis.set_major_formatter(mdate.DateFormatter('%b'))
+
+# plot as a histogram
 plt.hist([x1_data, x2_data], bins, alpha=1,
-         label=['librarians', 'randoms'], color=['k', '0.75'])
+         label=['Librarians', 'Control group'], color=['k', '0.75'])
+
 plt.legend(loc='upper left')
 plt.suptitle('Date of last update')
 plt.xlabel('Date')
-plt.ylabel('Number of librarians / randoms')
+plt.ylabel('Number of users')
 
 plt.show()
