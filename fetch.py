@@ -169,14 +169,15 @@ def check_rate_limit(request_data):
 
 def store_it():
     """ stores the data for future use """
-    with (open('json/librarians_data.json', 'w') as f1,
-          open('json/randoms_data.json', 'w') as f2):
+    with open('json/librarians_data.json', 'w') as f1:
         json.dump(librarians_data, f1)
+    with open('json/randoms_data.json', 'w') as f2:
         json.dump(randoms_data, f2)
-    with (open('json/librarians_repos.json', 'w') as f3,
-          open('json/randoms_repos.json', 'w') as f4):
+    with open('json/librarians_repos.json', 'w') as f3:
         json.dump(librarians_repos, f3)
+    with open('json/randoms_repos.json', 'w') as f4:
         json.dump(randoms_repos, f4)
+
 
 if __name__ == "__main__":
     generate_librarians()
