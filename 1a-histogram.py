@@ -4,6 +4,7 @@ import json
 import matplotlib.dates as mdate
 import datetime
 import seaborn as sns
+import arrow
 
 """
 Histogram of when the user had their last update
@@ -24,11 +25,32 @@ def make_np(facet, group):
         update = datetime.datetime.strptime(i[group][user][facet],
                                             '%Y-%m-%dT%H:%M:%SZ')
         facet_list.append(update)
-        mpl_list = mdate.date2num(facet_list)
+    mpl_list = mdate.date2num(facet_list)
     return np.array(mpl_list)
+
 
 x1_data = make_np('updated_at', 'librarians')
 x2_data = make_np('updated_at', 'randoms')
+
+
+def get_avg_dates():
+    """ get the average timedeltas for both populations """
+
+    avg_librarians = np.around(np.mean(x1_data))
+    avg_randoms = np.around(np.mean(x2_data))
+
+    avg_librarians_date = mdate.num2date(avg_librarians)
+    avg_randoms_date = mdate.num2date(avg_randoms)
+
+    created_date = arrow.get(datetime.datetime(2017, 3, 1), 'US/Eastern')
+
+    librarians_delta = created_date - avg_librarians_date
+    randoms_delta = created_date - avg_randoms_date
+
+    return(librarians_delta.days, randoms_delta.days)
+
+
+avg_dates = get_avg_dates()
 
 bins = np.histogram(np.hstack((x1_data, x2_data)), bins=20)[1]
 
@@ -42,6 +64,12 @@ ax.xaxis.set_major_formatter(mdate.DateFormatter('%b'))
 # plot as a histogram
 plt.hist([x1_data, x2_data], bins, alpha=1,
          label=['Librarians', 'Control group'], color=['k', '0.75'])
+plt.text(datetime.date(2016, 12, 25), 28.35,
+         'Average days since last update for librarians: ' + str(avg_dates[0]),
+         ha='left', size=10)
+plt.text(datetime.date(2016, 12, 25), 27.1,
+         'Average days since last update for control group: '
+         + str(avg_dates[1]), ha='left', size=10)
 
 plt.legend(loc='upper left')
 plt.suptitle('Date of last update')
