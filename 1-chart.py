@@ -58,8 +58,8 @@ plt.ylim(1, 1000)
 
 plt.ylabel("Public repos")
 plt.xlabel("Following")
-plt.legend(('Librarians', 'Control group', 'Librarian average',
-            'Control group average'), loc='upper right')
+plt.legend(('Librarians', 'Comparison group', 'Librarian average',
+            'Comparison group average'), loc='upper right')
 plt.suptitle('Activity')
 
 plt.show()

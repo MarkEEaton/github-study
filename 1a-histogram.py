@@ -63,12 +63,12 @@ ax.xaxis.set_major_formatter(mdate.DateFormatter('%b'))
 
 # plot as a histogram
 plt.hist([x1_data, x2_data], bins, alpha=1,
-         label=['Librarians', 'Control group'], color=['k', '0.75'])
-plt.text(datetime.date(2016, 12, 25), 28.35,
+         label=['Librarians', 'Comparison group'], color=['k', '0.75'])
+plt.text(datetime.date(2016, 12, 7), 25.55,
          'Average days since last update for librarians: ' + str(avg_dates[0]),
          ha='left', size=10)
-plt.text(datetime.date(2016, 12, 25), 27.1,
-         'Average days since last update for control group: '
+plt.text(datetime.date(2016, 12, 7), 24.3,
+         'Average days since last update for comparison group: '
          + str(avg_dates[1]), ha='left', size=10)
 
 plt.legend(loc='upper left')

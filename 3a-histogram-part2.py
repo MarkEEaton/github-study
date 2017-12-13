@@ -43,7 +43,7 @@ bins = np.logspace(0.0, 4.0, 20)
 # plot the histogram
 fig, ax = plt.subplots()
 plt.hist([x1_data, x2_data], bins, alpha=1,
-         label=['Librarians', 'Control group'], color=['k', '0.75'],
+         label=['Librarians', 'Comparison group'], color=['k', '0.75'],
          rwidth=1)
 
 # make the scale logarithmic

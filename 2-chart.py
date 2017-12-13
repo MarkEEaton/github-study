@@ -59,7 +59,7 @@ plt.ylim(1, 10000)
 plt.ylabel('Stars')
 plt.xlabel('Followers')
 plt.suptitle('Popularity')
-plt.legend(('Librarians', 'Control group', 'Librarian average',
-            'Control group average'), loc='upper left')
+plt.legend(('Librarians', 'Comparison group', 'Librarian average',
+            'Comparison group average'), loc='upper left')
 
 plt.show()

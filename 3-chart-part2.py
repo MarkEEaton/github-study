@@ -29,6 +29,6 @@ plt.bar(np.arange(len(xdata)), ydata, align='center', color='0.75')
 
 plt.ylabel('Number of repositories')
 plt.xlabel('Programming language')
-plt.suptitle('Language choice among control group')
+plt.suptitle('Language choice among comparison group')
 
 plt.show()

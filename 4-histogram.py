@@ -37,11 +37,11 @@ sns.set(style='darkgrid')
 # create the histogram
 fig, ax = plt.subplots()
 plt.hist([x1_data, x2_data], bins, alpha=1,
-         label=['Librarians', 'Control group'], color=['k', '0.75'],
+         label=['Librarians', 'Comparison group'], color=['k', '0.75'],
          rwidth=0.75)
-plt.text(7, 66.6, 'Average gh-index for librarians: ' +
+plt.text(6.5, 66.6, 'Average gh-index for librarians: ' +
          str(avg_librarians), ha='right', size=10)
-plt.text(7, 63.3, 'Average gh-index for control group: ' +
+plt.text(6.5, 63.3, 'Average gh-index for comparison group: ' +
          str(avg_randoms), ha='right', size=10)
 plt.xlim(-0.5, 9.5)
 plt.xticks(range(10))
