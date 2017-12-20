@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 import seaborn as sns
+from scipy import stats
 
 """
 A scatterplot with number of stargazers and number of followers
@@ -37,6 +38,11 @@ y2_data = make_np('stargazers', 'randoms')
 #calculate the mean for randoms
 x2_avg = np.mean(x2_data)
 y2_avg = np.mean(y2_data)
+
+print('followers t-test: ')
+print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
+print('stargazers t-test: ')
+print(stats.ttest_ind(y1_data, y2_data, equal_var=False))
 
 sns.set(style='darkgrid')
 

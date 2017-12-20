@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 import seaborn as sns
+from scipy import stats
 
 """
 A scatterplot with number of public repos and number of following.
@@ -37,6 +38,11 @@ y2_data = make_np("public_repos", "randoms")
 # calculate the mean for randoms
 x2_avg = np.mean(x2_data)
 y2_avg = np.mean(y2_data)
+
+print('following t-test: ')
+print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
+print('public repos t-test: ')
+print(stats.ttest_ind(y1_data, y2_data, equal_var=False))
 
 sns.set(style='darkgrid')
 

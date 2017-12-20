@@ -5,6 +5,7 @@ import matplotlib.dates as mdate
 import datetime
 import seaborn as sns
 import arrow
+from scipy import stats
 
 
 """
@@ -50,6 +51,8 @@ def get_avg_dates():
 
     return(librarians_delta, randoms_delta)
 
+
+print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
 
 avg_dates = get_avg_dates()
 avg_dates_days = (avg_dates[0].days, avg_dates[1].days)

@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 import seaborn as sns
+from scipy import stats
 
 """
 Histogram of gh-index
@@ -25,6 +26,9 @@ def make_np(facet, group):
 
 x1_data = make_np("gh-index", "librarians")
 x2_data = make_np("gh-index", "randoms")
+
+print('gh-index t-test: ')
+print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
 
 avg_librarians = np.around(np.mean(x1_data), decimals=1)
 avg_randoms = np.around(np.mean(x2_data), decimals=1)

@@ -5,6 +5,7 @@ import matplotlib.dates as mdate
 import datetime
 import seaborn as sns
 import arrow
+from scipy import stats
 
 """
 Histogram of when the user had their last update
@@ -49,6 +50,9 @@ def get_avg_dates():
 
     return(librarians_delta.days, randoms_delta.days)
 
+
+print('updated-at t-test: ')
+print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
 
 avg_dates = get_avg_dates()
 
