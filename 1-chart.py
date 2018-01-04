@@ -24,25 +24,31 @@ def make_np(facet, group):
     return np.array(facet_list)
 
 # get the scatterplot data for librarians ready
-x1_data = make_np("following", "librarians")
-y1_data = make_np("public_repos", "librarians")
+x1_data = make_np("following", "librarians") + 1
+y1_data = make_np("public_repos", "librarians") + 1
 
 # calculate the mean for librarians
 x1_avg = np.mean(x1_data)
 y1_avg = np.mean(y1_data)
 
 # get the scatterplot data for randoms ready
-x2_data = make_np("following", "randoms")
-y2_data = make_np("public_repos", "randoms")
+x2_data = make_np("following", "randoms") + 1
+y2_data = make_np("public_repos", "randoms") + 1
 
 # calculate the mean for randoms
 x2_avg = np.mean(x2_data)
 y2_avg = np.mean(y2_data)
 
+# do log transformations and run t-test
+x1_data_log = np.log10(x1_data)
+x2_data_log = np.log10(x2_data)
+y1_data_log = np.log10(y1_data)
+y2_data_log = np.log10(y2_data)
+
 print('following t-test: ')
-print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
+print(stats.ttest_ind(x1_data_log, x2_data_log, equal_var=False))
 print('public repos t-test: ')
-print(stats.ttest_ind(y1_data, y2_data, equal_var=False))
+print(stats.ttest_ind(y1_data_log, y2_data_log, equal_var=False))
 
 sns.set(style='darkgrid')
 
