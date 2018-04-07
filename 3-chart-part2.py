@@ -28,7 +28,6 @@ plt.xticks(np.arange(len(xdata)), xdata, rotation=90)
 plt.bar(np.arange(len(xdata)), ydata, align='center', color='0.75')
 
 plt.ylabel('Number of repositories')
-plt.xlabel('Programming language')
 plt.suptitle('Language choice among comparison group')
 
 plt.show()

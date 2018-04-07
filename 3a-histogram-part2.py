@@ -26,12 +26,6 @@ def make_np(facet, group):
 x1_data = make_np("following", "librarians")
 x2_data = make_np("following", "randoms")
 
-"""
-Add one to all values because 0 can't display on a log scale.
-This is important because showing zero values is more important in this
-case than the exact precision of values. The binning used makes the
-exact values in the chart indechipherable anyway.
-"""
 x1_data += 1
 x2_data += 1
 

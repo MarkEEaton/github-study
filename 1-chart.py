@@ -65,8 +65,8 @@ plt.xscale('log')
 plt.yscale('log')
 
 # mark the boundaries of the plot
-plt.xlim(1, 1000)
-plt.ylim(1, 1000)
+plt.xlim(1, 10000)
+plt.ylim(1, 10000)
 
 plt.ylabel("Public repos")
 plt.xlabel("Following")

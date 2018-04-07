@@ -1,7 +1,7 @@
 import json
 from scipy.stats import chisquare
 
-with open('processedlanguages.json', 'r') as f:
+with open('json/processedlanguages.json', 'r') as f:
 	data = json.loads(f.read())
 
 ll = data['librarians']

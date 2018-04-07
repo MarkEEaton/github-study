@@ -55,7 +55,11 @@ def get_avg_dates():
 print(stats.ttest_ind(x1_data, x2_data, equal_var=False))
 
 avg_dates = get_avg_dates()
-avg_dates_days = (avg_dates[0].days, avg_dates[1].days)
+avg_days_librarians = avg_dates[0] / datetime.timedelta(days=1)
+avg_days_librarians_trunc = float(format(avg_days_librarians, '.2f'))
+avg_days_randoms = avg_dates[1] / datetime.timedelta(days=1)
+avg_days_randoms_trunc = float(format(avg_days_randoms, '.2f'))
+avg_dates_days = (avg_days_librarians_trunc, avg_days_randoms_trunc)
 
 bins = np.histogram(np.hstack((x1_data, x2_data)), bins=20)[1]
 

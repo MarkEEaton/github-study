@@ -1,1 +1,1 @@
-This project is in the very early stages. Please don't judge the ugly code; it will get better over the coming weeks.
+This code accompanies a forthcoming article in Evidence Based Librarianship and Information Practice, entitled "A Comparative Analysis of the Use of GitHub by Librarians and Non-Librarians"
